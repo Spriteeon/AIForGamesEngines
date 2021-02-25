@@ -5,6 +5,12 @@ using UnityEngine;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
+struct PlayAreaPositions
+{
+    public Vector3 minPos;
+    public Vector3 maxPos;
+}
+
 public class Flock : MonoBehaviour
 {
     [SerializeField]
@@ -13,14 +19,14 @@ public class Flock : MonoBehaviour
     public FlockAgent agentPrefab;
     List<FlockAgent> agents = new List<FlockAgent>();
     public FlockBehaviour behaviour;
-    
+    [SerializeField]
+    private Vector3 agentScaleSize = new Vector3(1.5f, 1.5f, 1.5f);
+
+    PlayAreaPositions area = new PlayAreaPositions();
     [SerializeField]
     private GameObject SpawnAreaMax;
     [SerializeField]
     private GameObject SpawnAreaMin;
-
-    private Vector3 minPos;
-    private Vector3 maxPos;
 
     [Range(10, 100)]
     public int startingCount = 40;
@@ -35,19 +41,18 @@ public class Flock : MonoBehaviour
     [Range(0f, 1f)]
     public float avoidanceRadiusMultiplier = 0.5f;
 
-    private Vector3 resetHeight = new Vector3(1, 0, 1);
+    private Vector3 resetHeight = new Vector3(1, 1, 1);
 
     float squareMaxSpeed;
     float squareNeighbourRadius;
     float squareAvoidanceRadius;
     public float SquareAvoidanceRadius { get { return squareAvoidanceRadius; } }
-    
 
     // Start is called before the first frame update
     void Start()
     {
-        minPos = SpawnAreaMin.transform.position;
-        maxPos = SpawnAreaMax.transform.position;
+        area.minPos = SpawnAreaMin.transform.position;
+        area.maxPos = SpawnAreaMax.transform.position;
 
         squareMaxSpeed = maxSpeed * maxSpeed;
         squareNeighbourRadius = neighbourRadius * neighbourRadius;
@@ -56,20 +61,18 @@ public class Flock : MonoBehaviour
         for (int i = 0; i < startingCount; i++)
         {
             // Spawn area
-            //Vector3 spawnPos = new Vector3(Random.Range(minPos.x, maxPos.x), Random.Range(minPos.y, maxPos.y), Random.Range(minPos.z, maxPos.z));
-            // spawnPos = (Vector3)spawnPos.Normalize();
-
-            Vector3 spawnPos = Random.insideUnitSphere * startingCount * AgentDensity;
-            spawnPos = new Vector3(spawnPos.x, 0, spawnPos.z);
+            Vector3 spawnPos = new Vector3(Random.Range(area.minPos.x, area.maxPos.x), 0, Random.Range(area.minPos.z, area.maxPos.z));
 
             FlockAgent newAgent = Instantiate(
                 agentPrefab,
-                spawnPos,
-                Quaternion.Euler(Vector3.up * Random.Range(0f, 360f)),
+                spawnPos ,
+                Quaternion.Euler(1,1,1),
                 transform
                 );
             newAgent.name = "Agent " + i;
             agents.Add(newAgent);
+
+            newAgent.transform.localScale = agentScaleSize;
         }
     }
 

@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: StayInRadius
   m_EditorClassIdentifier: 
   centre: {x: 0, y: 0, z: 0}
+  SpawnAreaTop: {x: 30, y: 0, z: 0}
+  SpawnAreaLeft: {x: 0, y: 0, z: 40}
   radius: 40
