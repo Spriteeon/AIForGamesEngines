@@ -29,6 +29,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		CapsuleCollider m_Capsule;
 		bool m_Crouching;
 
+		[SerializeField] private Camera camera;
+		private Vector3 cameraOffset;
+		private Quaternion cameraRotation;
 
 		void Start()
 		{
@@ -40,6 +43,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 			m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
 			m_OrigGroundCheckDistance = m_GroundCheckDistance;
+
+			if(camera)
+			{
+				cameraOffset = transform.position - camera.transform.position;
+				cameraRotation = camera.transform.rotation;
+			}
 		}
 
 
@@ -73,6 +82,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 			// send input and other state parameters to the animator
 			UpdateAnimator(move);
+			camera.transform.position = transform.position - cameraOffset;
+			camera.transform.rotation = cameraRotation;
 		}
 
 
