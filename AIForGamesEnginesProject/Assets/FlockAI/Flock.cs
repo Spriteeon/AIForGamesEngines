@@ -43,6 +43,9 @@ public class Flock : MonoBehaviour
 
     private Vector3 resetHeight = new Vector3(1, 1, 1);
 
+    [SerializeField]
+    private bool IsYZero = false;
+
     float squareMaxSpeed;
     float squareNeighbourRadius;
     float squareAvoidanceRadius;
@@ -61,7 +64,15 @@ public class Flock : MonoBehaviour
         for (int i = 0; i < startingCount; i++)
         {
             // Spawn area
-            Vector3 spawnPos = new Vector3(Random.Range(area.minPos.x, area.maxPos.x), 0, Random.Range(area.minPos.z, area.maxPos.z));
+            Vector3 spawnPos;
+            if (IsYZero)
+            {
+                spawnPos = new Vector3(Random.Range(area.minPos.x, area.maxPos.x), 0, Random.Range(area.minPos.z, area.maxPos.z));
+            }
+            else
+            {
+                spawnPos = new Vector3(Random.Range(area.minPos.x, area.maxPos.x), 1, Random.Range(area.minPos.z, area.maxPos.z));
+            }
 
             FlockAgent newAgent = Instantiate(
                 agentPrefab,

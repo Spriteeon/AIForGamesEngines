@@ -149,7 +149,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5798223812826103322}
   m_Layer: 0
-  m_Name: Flock Prefab
+  m_Name: Flock Prefab - Moving Tiles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -311,12 +311,12 @@ MonoBehaviour:
   agentPrefab: {fileID: 8399987571345401646, guid: 8f1e6074db9e2dc4ba07be9eb538657e,
     type: 3}
   behaviour: {fileID: 11400000, guid: 802ec13435ed95f47b994e3e2e215047, type: 2}
+  agentScaleSize: {x: 1.5, y: 1.5, z: 1.5}
   SpawnAreaMax: {fileID: 7873870425486886101}
   SpawnAreaMin: {fileID: 2133343664886957159}
-  SpawnAreaTop: {fileID: 0}
-  SpawnAreaLeft: {fileID: 0}
   startingCount: 30
   driveFactor: 30
   maxSpeed: 3.5
   neighbourRadius: 4
   avoidanceRadiusMultiplier: 0.75
+  IsYZero: 1
