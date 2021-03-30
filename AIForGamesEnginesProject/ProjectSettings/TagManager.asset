@@ -5,6 +5,29 @@ TagManager:
   serializedVersion: 2
   tags:
   - Area
+  - agent
+  - walkableSurface
+  - block
+  - wall
+  - goal
+  - target
+  - ground
+  - ball
+  - iWall
+  - symbol_O_Goal
+  - symbol_X
+  - symbol_X_Goal
+  - symbol_O
+  - purpleAgent
+  - purpleGoal
+  - blueAgent
+  - blueGoal
+  - switchOff
+  - pyramid
+  - stone
+  - badFood
+  - food
+  - pit
   layers:
   - Default
   - TransparentFX
@@ -14,7 +37,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Enemy
   - 
   - 
   - 

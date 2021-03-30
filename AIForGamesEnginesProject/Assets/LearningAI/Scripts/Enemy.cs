@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,23 +16,24 @@ public class Enemy : MonoBehaviour
         currentHealth = startingHealth;
     }
 
-    public void GetShot(int damage)
+    public void GetShot(int damage, ShootingAgent shooter)
 	{
-        ApplyDamage(damage);
+        ApplyDamage(damage, shooter);
 	}
 
-    private void ApplyDamage(int damage)
+    private void ApplyDamage(int damage, ShootingAgent shooter)
 	{
         currentHealth -= damage;
 
         if (currentHealth <= 0)
 		{
-            Die();
+            Die(shooter);
 		}
 	}
 
-    private void Die()
+    private void Die(ShootingAgent shooter)
 	{
+        shooter.RegisterKill();
         Debug.Log(message: "I Died!");
         Respawn();
 	}
@@ -41,11 +43,4 @@ public class Enemy : MonoBehaviour
         currentHealth = startingHealth;
         transform.position = startPosition;
 	}
-
-	#region Debug
-	private void OnMouseDown()
-	{
-        GetShot(startingHealth);
-	}
-	#endregion
 }
