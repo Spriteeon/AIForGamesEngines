@@ -1,5 +1,5 @@
-using UnityEngine;
 using Unity.MLAgents;
+using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 
 public class TemplateAgent : Agent
@@ -8,7 +8,8 @@ public class TemplateAgent : Agent
     {
     }
 
-    public override void OnActionReceived(float[] vectorAction)
+    public override void OnActionReceived(ActionBuffers actionBuffers)
+
     {
     }
 
