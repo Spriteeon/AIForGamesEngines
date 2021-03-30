@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using Unity.MLAgents;
-using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 
 public class HallwayAgent : Agent
@@ -18,7 +17,6 @@ public class HallwayAgent : Agent
     Renderer m_GroundRenderer;
     HallwaySettings m_HallwaySettings;
     int m_Selection;
-    StatsRecorder m_statsRecorder;
 
     public override void Initialize()
     {
@@ -26,7 +24,6 @@ public class HallwayAgent : Agent
         m_AgentRb = GetComponent<Rigidbody>();
         m_GroundRenderer = ground.GetComponent<Renderer>();
         m_GroundMaterial = m_GroundRenderer.material;
-        m_statsRecorder = Academy.Instance.StatsRecorder;
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -44,12 +41,12 @@ public class HallwayAgent : Agent
         m_GroundRenderer.material = m_GroundMaterial;
     }
 
-    public void MoveAgent(ActionSegment<int> act)
+    public void MoveAgent(float[] act)
     {
         var dirToGo = Vector3.zero;
         var rotateDir = Vector3.zero;
 
-        var action = act[0];
+        var action = Mathf.FloorToInt(act[0]);
         switch (action)
         {
             case 1:
@@ -69,11 +66,10 @@ public class HallwayAgent : Agent
         m_AgentRb.AddForce(dirToGo * m_HallwaySettings.agentRunSpeed, ForceMode.VelocityChange);
     }
 
-    public override void OnActionReceived(ActionBuffers actionBuffers)
-
+    public override void OnActionReceived(float[] vectorAction)
     {
         AddReward(-1f / MaxStep);
-        MoveAgent(actionBuffers.DiscreteActions);
+        MoveAgent(vectorAction);
     }
 
     void OnCollisionEnter(Collision col)
@@ -85,37 +81,34 @@ public class HallwayAgent : Agent
             {
                 SetReward(1f);
                 StartCoroutine(GoalScoredSwapGroundMaterial(m_HallwaySettings.goalScoredMaterial, 0.5f));
-                m_statsRecorder.Add("Goal/Correct", 1, StatAggregationMethod.Sum);
             }
             else
             {
                 SetReward(-0.1f);
                 StartCoroutine(GoalScoredSwapGroundMaterial(m_HallwaySettings.failMaterial, 0.5f));
-                m_statsRecorder.Add("Goal/Wrong", 1, StatAggregationMethod.Sum);
             }
             EndEpisode();
         }
     }
 
-    public override void Heuristic(in ActionBuffers actionsOut)
+    public override void Heuristic(float[] actionsOut)
     {
-        var discreteActionsOut = actionsOut.DiscreteActions;
-        discreteActionsOut[0] = 0;
+        actionsOut[0] = 0;
         if (Input.GetKey(KeyCode.D))
         {
-            discreteActionsOut[0] = 3;
+            actionsOut[0] = 3;
         }
         else if (Input.GetKey(KeyCode.W))
         {
-            discreteActionsOut[0] = 1;
+            actionsOut[0] = 1;
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            discreteActionsOut[0] = 4;
+            actionsOut[0] = 4;
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            discreteActionsOut[0] = 2;
+            actionsOut[0] = 2;
         }
     }
 
@@ -160,7 +153,5 @@ public class HallwayAgent : Agent
             symbolXGoal.transform.position = new Vector3(7f, 0.5f, 22.29f) + area.transform.position;
             symbolOGoal.transform.position = new Vector3(-7f, 0.5f, 22.29f) + area.transform.position;
         }
-        m_statsRecorder.Add("Goal/Correct", 0, StatAggregationMethod.Sum);
-        m_statsRecorder.Add("Goal/Wrong", 0, StatAggregationMethod.Sum);
     }
 }

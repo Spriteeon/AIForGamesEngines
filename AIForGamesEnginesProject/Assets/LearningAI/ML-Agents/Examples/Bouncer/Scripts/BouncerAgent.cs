@@ -1,6 +1,5 @@
 using UnityEngine;
 using Unity.MLAgents;
-using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 
 public class BouncerAgent : Agent
@@ -33,23 +32,21 @@ public class BouncerAgent : Agent
         sensor.AddObservation(target.transform.localPosition);
     }
 
-    public override void OnActionReceived(ActionBuffers actionBuffers)
-
+    public override void OnActionReceived(float[] vectorAction)
     {
-        var continuousActions = actionBuffers.ContinuousActions;
-        for (var i = 0; i < continuousActions.Length; i++)
+        for (var i = 0; i < vectorAction.Length; i++)
         {
-            continuousActions[i] = Mathf.Clamp(continuousActions[i], -1f, 1f);
+            vectorAction[i] = Mathf.Clamp(vectorAction[i], -1f, 1f);
         }
-        var x = continuousActions[0];
-        var y = ScaleAction(continuousActions[1], 0, 1);
-        var z = continuousActions[2];
+        var x = vectorAction[0];
+        var y = ScaleAction(vectorAction[1], 0, 1);
+        var z = vectorAction[2];
         m_Rb.AddForce(new Vector3(x, y + 1, z) * strength);
 
         AddReward(-0.05f * (
-            continuousActions[0] * continuousActions[0] +
-            continuousActions[1] * continuousActions[1] +
-            continuousActions[2] * continuousActions[2]) / 3f);
+            vectorAction[0] * vectorAction[0] +
+            vectorAction[1] * vectorAction[1] +
+            vectorAction[2] * vectorAction[2]) / 3f);
 
         m_LookDir = new Vector3(x, y, z);
     }
@@ -104,12 +101,11 @@ public class BouncerAgent : Agent
         }
     }
 
-    public override void Heuristic(in ActionBuffers actionsOut)
+    public override void Heuristic(float[] actionsOut)
     {
-        var continuousActionsOut = actionsOut.ContinuousActions;
-        continuousActionsOut[0] = Input.GetAxis("Horizontal");
-        continuousActionsOut[1] = Input.GetKey(KeyCode.Space) ? 1.0f : 0.0f;
-        continuousActionsOut[2] = Input.GetAxis("Vertical");
+        actionsOut[0] = Input.GetAxis("Horizontal");
+        actionsOut[1] = Input.GetKey(KeyCode.Space) ? 1.0f : 0.0f;
+        actionsOut[2] = Input.GetAxis("Vertical");
     }
 
     void Update()

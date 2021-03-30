@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.MLAgents;
-using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 
 public class TennisAgent : Agent
@@ -60,13 +59,11 @@ public class TennisAgent : Agent
         sensor.AddObservation(m_InvertMult * gameObject.transform.rotation.z);
     }
 
-    public override void OnActionReceived(ActionBuffers actionBuffers)
-
+    public override void OnActionReceived(float[] vectorAction)
     {
-        var continuousActions = actionBuffers.ContinuousActions;
-        var moveX = Mathf.Clamp(continuousActions[0], -1f, 1f) * m_InvertMult;
-        var moveY = Mathf.Clamp(continuousActions[1], -1f, 1f);
-        var rotate = Mathf.Clamp(continuousActions[2], -1f, 1f) * m_InvertMult;
+        var moveX = Mathf.Clamp(vectorAction[0], -1f, 1f) * m_InvertMult;
+        var moveY = Mathf.Clamp(vectorAction[1], -1f, 1f);
+        var rotate = Mathf.Clamp(vectorAction[2], -1f, 1f) * m_InvertMult;
 
         if (moveY > 0.5 && transform.position.y - transform.parent.transform.position.y < -1.5f)
         {
@@ -88,12 +85,11 @@ public class TennisAgent : Agent
         m_TextComponent.text = score.ToString();
     }
 
-    public override void Heuristic(in ActionBuffers actionsOut)
+    public override void Heuristic(float[] actionsOut)
     {
-        var continuousActionsOut = actionsOut.ContinuousActions;
-        continuousActionsOut[0] = Input.GetAxis("Horizontal");    // Racket Movement
-        continuousActionsOut[1] = Input.GetKey(KeyCode.Space) ? 1f : 0f;   // Racket Jumping
-        continuousActionsOut[2] = Input.GetAxis("Vertical");   // Racket Rotation
+        actionsOut[0] = Input.GetAxis("Horizontal");    // Racket Movement
+        actionsOut[1] = Input.GetKey(KeyCode.Space) ? 1f : 0f;   // Racket Jumping
+        actionsOut[2] = Input.GetAxis("Vertical");   // Racket Rotation
     }
 
     public override void OnEpisodeBegin()

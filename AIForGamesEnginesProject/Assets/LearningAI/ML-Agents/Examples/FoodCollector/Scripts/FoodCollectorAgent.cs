@@ -1,8 +1,6 @@
 using UnityEngine;
 using Unity.MLAgents;
-using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
-using Random = UnityEngine.Random;
 
 public class FoodCollectorAgent : Agent
 {
@@ -29,10 +27,6 @@ public class FoodCollectorAgent : Agent
     public GameObject myLaser;
     public bool contribute;
     public bool useVectorObs;
-    [Tooltip("Use only the frozen flag in vector observations. If \"Use Vector Obs\" " +
-             "is checked, this option has no effect. This option is necessary for the " +
-             "VisualFoodCollector scene.")]
-    public bool useVectorFrozenFlag;
 
     EnvironmentParameters m_ResetParams;
 
@@ -52,12 +46,8 @@ public class FoodCollectorAgent : Agent
             var localVelocity = transform.InverseTransformDirection(m_AgentRb.velocity);
             sensor.AddObservation(localVelocity.x);
             sensor.AddObservation(localVelocity.z);
-            sensor.AddObservation(m_Frozen);
-            sensor.AddObservation(m_Shoot);
-        }
-        else if (useVectorFrozenFlag)
-        {
-            sensor.AddObservation(m_Frozen);
+            sensor.AddObservation(System.Convert.ToInt32(m_Frozen));
+            sensor.AddObservation(System.Convert.ToInt32(m_Shoot));
         }
     }
 
@@ -69,7 +59,7 @@ public class FoodCollectorAgent : Agent
         return new Color32(r, g, b, 255);
     }
 
-    public void MoveAgent(ActionBuffers actionBuffers)
+    public void MoveAgent(float[] act)
     {
         m_Shoot = false;
 
@@ -92,20 +82,49 @@ public class FoodCollectorAgent : Agent
         var dirToGo = Vector3.zero;
         var rotateDir = Vector3.zero;
 
-        var continuousActions = actionBuffers.ContinuousActions;
-        var discreteActions = actionBuffers.DiscreteActions;
-
         if (!m_Frozen)
         {
-            var forward = Mathf.Clamp(continuousActions[0], -1f, 1f);
-            var right = Mathf.Clamp(continuousActions[1], -1f, 1f);
-            var rotate = Mathf.Clamp(continuousActions[2], -1f, 1f);
+            var shootCommand = false;
+            var forwardAxis = (int)act[0];
+            var rightAxis = (int)act[1];
+            var rotateAxis = (int)act[2];
+            var shootAxis = (int)act[3];
 
-            dirToGo = transform.forward * forward;
-            dirToGo += transform.right * right;
-            rotateDir = -transform.up * rotate;
+            switch (forwardAxis)
+            {
+                case 1:
+                    dirToGo = transform.forward;
+                    break;
+                case 2:
+                    dirToGo = -transform.forward;
+                    break;
+            }
 
-            var shootCommand = (int)discreteActions[0] > 0;
+            switch (rightAxis)
+            {
+                case 1:
+                    dirToGo = transform.right;
+                    break;
+                case 2:
+                    dirToGo = -transform.right;
+                    break;
+            }
+
+            switch (rotateAxis)
+            {
+                case 1:
+                    rotateDir = -transform.up;
+                    break;
+                case 2:
+                    rotateDir = transform.up;
+                    break;
+            }
+            switch (shootAxis)
+            {
+                case 1:
+                    shootCommand = true;
+                    break;
+            }
             if (shootCommand)
             {
                 m_Shoot = true;
@@ -183,36 +202,30 @@ public class FoodCollectorAgent : Agent
         gameObject.GetComponentInChildren<Renderer>().material = normalMaterial;
     }
 
-    public override void OnActionReceived(ActionBuffers actionBuffers)
-
+    public override void OnActionReceived(float[] vectorAction)
     {
-        MoveAgent(actionBuffers);
+        MoveAgent(vectorAction);
     }
 
-    public override void Heuristic(in ActionBuffers actionsOut)
+    public override void Heuristic(float[] actionsOut)
     {
-        var continuousActionsOut = actionsOut.ContinuousActions;
-        continuousActionsOut[0] = 0;
-        continuousActionsOut[1] = 0;
-        continuousActionsOut[2] = 0;
         if (Input.GetKey(KeyCode.D))
         {
-            continuousActionsOut[2] = 1;
+            actionsOut[2] = 2f;
         }
         if (Input.GetKey(KeyCode.W))
         {
-            continuousActionsOut[0] = 1;
+            actionsOut[0] = 1f;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            continuousActionsOut[2] = -1;
+            actionsOut[2] = 1f;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            continuousActionsOut[0] = -1;
+            actionsOut[0] = 2f;
         }
-        var discreteActionsOut = actionsOut.DiscreteActions;
-        discreteActionsOut[0] = Input.GetKey(KeyCode.Space) ? 1 : 0;
+        actionsOut[3] = Input.GetKey(KeyCode.Space) ? 1.0f : 0.0f;
     }
 
     public override void OnEpisodeBegin()

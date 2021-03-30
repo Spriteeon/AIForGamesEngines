@@ -38,9 +38,23 @@ public class BasicController : MonoBehaviour
     /// <summary>
     /// Controls the movement of the GameObject based on the actions received.
     /// </summary>
-    /// <param name="direction"></param>
-    public void MoveDirection(int direction)
+    /// <param name="vectorAction"></param>
+    public void ApplyAction(float[] vectorAction)
     {
+        var movement = (int)vectorAction[0];
+
+        var direction = 0;
+
+        switch (movement)
+        {
+            case 1:
+                direction = -1;
+                break;
+            case 2:
+                direction = 1;
+                break;
+        }
+
         position += direction;
         if (position < k_MinPosition) { position = k_MinPosition; }
         if (position > k_MaxPosition) { position = k_MaxPosition; }
@@ -85,12 +99,17 @@ public class BasicController : MonoBehaviour
         }
         if (Academy.Instance.IsCommunicatorOn)
         {
+            // Apply the previous step's actions
+            ApplyAction(m_Agent.GetAction());
             m_Agent?.RequestDecision();
         }
         else
         {
             if (m_TimeSinceDecision >= timeBetweenDecisionsAtInference)
             {
+                // Apply the previous step's actions
+                ApplyAction(m_Agent.GetAction());
+
                 m_TimeSinceDecision = 0f;
                 m_Agent?.RequestDecision();
             }

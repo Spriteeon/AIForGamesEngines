@@ -18,7 +18,6 @@ public class GridArea : MonoBehaviour
     public GameObject goalPref;
     public GameObject pitPref;
     GameObject[] m_Objects;
-    public int numberOfObstacles = 1;
 
     GameObject m_Plane;
     GameObject m_Sn;
@@ -55,7 +54,7 @@ public class GridArea : MonoBehaviour
         transform.position = m_InitialPosition * (m_ResetParams.GetWithDefault("gridSize", 5f) + 1);
         var playersList = new List<int>();
 
-        for (var i = 0; i < (int)m_ResetParams.GetWithDefault("numObstacles", numberOfObstacles); i++)
+        for (var i = 0; i < (int)m_ResetParams.GetWithDefault("numObstacles", 1); i++)
         {
             playersList.Add(1);
         }
