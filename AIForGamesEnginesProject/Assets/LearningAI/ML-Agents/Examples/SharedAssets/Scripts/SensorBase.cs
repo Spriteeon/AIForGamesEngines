@@ -33,13 +33,13 @@ namespace Unity.MLAgentsExamples
             float[] buffer = new float[numFloats];
             WriteObservation(buffer);
 
-            writer.AddList(buffer);
+            writer.AddRange(buffer);
 
             return numFloats;
         }
 
         /// <inheritdoc/>
-        public void Update() { }
+        public void Update() {}
 
         /// <inheritdoc/>
         public void Reset() { }

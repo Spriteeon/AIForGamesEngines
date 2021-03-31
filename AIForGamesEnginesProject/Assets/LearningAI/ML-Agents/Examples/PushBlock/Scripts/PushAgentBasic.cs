@@ -3,7 +3,6 @@
 using System.Collections;
 using UnityEngine;
 using Unity.MLAgents;
-using Unity.MLAgents.Actuators;
 
 public class PushAgentBasic : Agent
 {
@@ -128,13 +127,14 @@ public class PushAgentBasic : Agent
     /// <summary>
     /// Moves the agent according to the selected action.
     /// </summary>
-    public void MoveAgent(ActionSegment<int> act)
+    public void MoveAgent(float[] act)
     {
         var dirToGo = Vector3.zero;
         var rotateDir = Vector3.zero;
 
-        var action = act[0];
+        var action = Mathf.FloorToInt(act[0]);
 
+        // Goalies and Strikers have slightly different action spaces.
         switch (action)
         {
             case 1:
@@ -164,35 +164,33 @@ public class PushAgentBasic : Agent
     /// <summary>
     /// Called every step of the engine. Here the agent takes an action.
     /// </summary>
-    public override void OnActionReceived(ActionBuffers actionBuffers)
-
+    public override void OnActionReceived(float[] vectorAction)
     {
         // Move the agent using the action.
-        MoveAgent(actionBuffers.DiscreteActions);
+        MoveAgent(vectorAction);
 
         // Penalty given each step to encourage agent to finish task quickly.
         AddReward(-1f / MaxStep);
     }
 
-    public override void Heuristic(in ActionBuffers actionsOut)
+    public override void Heuristic(float[] actionsOut)
     {
-        var discreteActionsOut = actionsOut.DiscreteActions;
-        discreteActionsOut[0] = 0;
+        actionsOut[0] = 0;
         if (Input.GetKey(KeyCode.D))
         {
-            discreteActionsOut[0] = 3;
+            actionsOut[0] = 3;
         }
         else if (Input.GetKey(KeyCode.W))
         {
-            discreteActionsOut[0] = 1;
+            actionsOut[0] = 1;
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            discreteActionsOut[0] = 4;
+            actionsOut[0] = 4;
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            discreteActionsOut[0] = 2;
+            actionsOut[0] = 2;
         }
     }
 

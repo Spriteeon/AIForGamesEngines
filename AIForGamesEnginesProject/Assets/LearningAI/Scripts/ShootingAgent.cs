@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.MLAgents;
-using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
 
@@ -22,7 +21,6 @@ public class ShootingAgent : Agent
 
 	private void Shoot()
 	{
-		//Debug.Log(message: "Shot!");
 		if (!shotAvailable)
 			return;
 
@@ -53,14 +51,12 @@ public class ShootingAgent : Agent
 		}
 	}
 
-    public override void OnActionReceived(ActionBuffers vectorAction)
+    public override void OnActionReceived(float[] vectorAction)
 	{
-		var continuousActions = vectorAction.ContinuousActions;
-		if (Mathf.RoundToInt(continuousActions[0]) >= 1)
+		if (Mathf.RoundToInt(vectorAction[0]) >= 1)
 		{
 			Shoot();
 		}
-		//Shoot();
 	}
 
 	public override void CollectObservations(VectorSensor sensor)
@@ -74,12 +70,9 @@ public class ShootingAgent : Agent
 		Rb = GetComponent<Rigidbody>();
 	}
 
-	public override void Heuristic(in ActionBuffers actionsOut)
+	public override void Heuristic(float[] actionsOut)
 	{
-		var continuousActionsOut = actionsOut.ContinuousActions;
-		//continuousActionsOut[0] = Input.GetButtonDown("Jump") ? 1f : 0f;
-		continuousActionsOut[0] = Input.GetKey(KeyCode.Space) ? 1f : 0f;
-		//continuousActionsOut[1] = Input.GetKey(KeyCode.P) ? 1f : 0f;
+		actionsOut[0] = Input.GetKey(KeyCode.P) ? 1f : 0f;
 		//transform.rotation.SetLookRotation();
 	}
 

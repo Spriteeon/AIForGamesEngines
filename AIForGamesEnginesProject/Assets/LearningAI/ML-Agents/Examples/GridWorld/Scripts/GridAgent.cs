@@ -2,8 +2,6 @@ using System;
 using UnityEngine;
 using System.Linq;
 using Unity.MLAgents;
-using Unity.MLAgents.Actuators;
-using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 
 public class GridAgent : Agent
@@ -36,44 +34,43 @@ public class GridAgent : Agent
         m_ResetParams = Academy.Instance.EnvironmentParameters;
     }
 
-    public override void WriteDiscreteActionMask(IDiscreteActionMask actionMask)
+    public override void CollectDiscreteActionMasks(DiscreteActionMasker actionMasker)
     {
         // Mask the necessary actions if selected by the user.
         if (maskActions)
         {
-            // Prevents the agent from picking an action that would make it collide with a wall
-            var positionX = (int)transform.localPosition.x;
-            var positionZ = (int)transform.localPosition.z;
+           // Prevents the agent from picking an action that would make it collide with a wall
+            var positionX = (int)transform.position.x;
+            var positionZ = (int)transform.position.z;
             var maxPosition = (int)m_ResetParams.GetWithDefault("gridSize", 5f) - 1;
 
             if (positionX == 0)
             {
-                actionMask.WriteMask(0, new[] { k_Left });
+                actionMasker.SetMask(0, new []{ k_Left});
             }
 
             if (positionX == maxPosition)
             {
-                actionMask.WriteMask(0, new[] { k_Right });
+                actionMasker.SetMask(0, new []{k_Right});
             }
 
             if (positionZ == 0)
             {
-                actionMask.WriteMask(0, new[] { k_Down });
+                actionMasker.SetMask(0, new []{k_Down});
             }
 
             if (positionZ == maxPosition)
             {
-                actionMask.WriteMask(0, new[] { k_Up });
+                actionMasker.SetMask(0, new []{k_Up});
             }
         }
     }
 
     // to be implemented by the developer
-    public override void OnActionReceived(ActionBuffers actionBuffers)
-
+    public override void OnActionReceived(float[] vectorAction)
     {
         AddReward(-0.01f);
-        var action = actionBuffers.DiscreteActions[0];
+        var action = Mathf.FloorToInt(vectorAction[0]);
 
         var targetPos = transform.position;
         switch (action)
@@ -116,25 +113,24 @@ public class GridAgent : Agent
         }
     }
 
-    public override void Heuristic(in ActionBuffers actionsOut)
+    public override void Heuristic(float[] actionsOut)
     {
-        var discreteActionsOut = actionsOut.DiscreteActions;
-        discreteActionsOut[0] = k_NoAction;
+        actionsOut[0] = k_NoAction;
         if (Input.GetKey(KeyCode.D))
         {
-            discreteActionsOut[0] = k_Right;
+            actionsOut[0] = k_Right;
         }
         if (Input.GetKey(KeyCode.W))
         {
-            discreteActionsOut[0] = k_Up;
+            actionsOut[0] = k_Up;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            discreteActionsOut[0] = k_Left;
+            actionsOut[0] = k_Left;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            discreteActionsOut[0] = k_Down;
+            actionsOut[0] = k_Down;
         }
     }
 
@@ -151,7 +147,7 @@ public class GridAgent : Agent
 
     void WaitTimeInference()
     {
-        if (renderCamera != null && SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null)
+        if (renderCamera != null)
         {
             renderCamera.Render();
         }

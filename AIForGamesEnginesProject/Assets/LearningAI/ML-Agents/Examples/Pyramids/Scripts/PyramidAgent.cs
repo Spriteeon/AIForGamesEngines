@@ -3,7 +3,6 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Unity.MLAgents;
-using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 
 public class PyramidAgent : Agent
@@ -31,12 +30,12 @@ public class PyramidAgent : Agent
         }
     }
 
-    public void MoveAgent(ActionSegment<int> act)
+    public void MoveAgent(float[] act)
     {
         var dirToGo = Vector3.zero;
         var rotateDir = Vector3.zero;
 
-        var action = act[0];
+        var action = Mathf.FloorToInt(act[0]);
         switch (action)
         {
             case 1:
@@ -56,32 +55,30 @@ public class PyramidAgent : Agent
         m_AgentRb.AddForce(dirToGo * 2f, ForceMode.VelocityChange);
     }
 
-    public override void OnActionReceived(ActionBuffers actionBuffers)
-
+    public override void OnActionReceived(float[] vectorAction)
     {
         AddReward(-1f / MaxStep);
-        MoveAgent(actionBuffers.DiscreteActions);
+        MoveAgent(vectorAction);
     }
 
-    public override void Heuristic(in ActionBuffers actionsOut)
+    public override void Heuristic(float[] actionsOut)
     {
-        var discreteActionsOut = actionsOut.DiscreteActions;
-        discreteActionsOut[0] = 0;
+        actionsOut[0] = 0;
         if (Input.GetKey(KeyCode.D))
         {
-            discreteActionsOut[0] = 3;
+            actionsOut[0] = 3;
         }
         else if (Input.GetKey(KeyCode.W))
         {
-            discreteActionsOut[0] = 1;
+            actionsOut[0] = 1;
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            discreteActionsOut[0] = 4;
+            actionsOut[0] = 4;
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            discreteActionsOut[0] = 2;
+            actionsOut[0] = 2;
         }
     }
 
