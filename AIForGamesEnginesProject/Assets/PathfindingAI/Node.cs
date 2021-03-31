@@ -9,7 +9,7 @@ public class Node
 
     public Node(bool canBeWalkedOn, Vector3 nodePos)
     {
-        canBeWalkedOn = bcanBeWalkedOn;
+         bcanBeWalkedOn = canBeWalkedOn;
         nodeWorldPos = nodePos;
     }
 }
