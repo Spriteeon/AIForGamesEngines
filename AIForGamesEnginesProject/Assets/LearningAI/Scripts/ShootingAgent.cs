@@ -59,10 +59,11 @@ public class ShootingAgent : Agent
 		}
 	}
 
-	public override void CollectObservations(VectorSensor sensor)
-	{
-		base.CollectObservations(sensor);
-	}
+	//public override void CollectObservations(VectorSensor sensor)
+	//{
+	//	//sensor.AddObservation(shotAvailable);
+	//	base.CollectObservations(sensor);
+	//}
 
 	public override void Initialize()
 	{
