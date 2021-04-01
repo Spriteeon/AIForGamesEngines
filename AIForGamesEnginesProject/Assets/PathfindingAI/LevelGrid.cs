@@ -5,8 +5,11 @@ using UnityEngine;
 public class LevelGrid : MonoBehaviour
 {
     public LayerMask obsructedAreaMask;
+   
     public Vector2 levelGridSize;
     public float nodeRadius;
+    
+    //Array of nodes that make up the grid.
     Node[,] grid;
 
     void OnDrawGizmos()
