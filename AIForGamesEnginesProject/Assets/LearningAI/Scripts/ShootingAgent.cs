@@ -13,11 +13,17 @@ public class ShootingAgent : Agent
 
 	public int score = 0;
 
+	public float speed = 3f;
+	public float rotationSpeed = 3f;
+
 	private bool shotAvailable = true;
 	private int stepsUntilShotIsAvailable = 0;
 
 	private Vector3 startingPosition;
 	private Rigidbody Rb;
+	private EnvironmentParameters environmentParameters;
+
+	public event Action onEnvironmentReset;
 
 	private void Shoot()
 	{
@@ -34,6 +40,10 @@ public class ShootingAgent : Agent
 		{
 			hit.transform.GetComponent<Enemy>().GetShot(damage, shooter: this);
 		}
+		else
+		{
+			AddReward(-0.033f);
+		}
 
 		shotAvailable = false;
 		stepsUntilShotIsAvailable = minStepsBetweenShots;
@@ -49,6 +59,8 @@ public class ShootingAgent : Agent
 				shotAvailable = true;
 			}
 		}
+
+		//AddReward(-1f / MaxStep);
 	}
 
     public override void OnActionReceived(float[] vectorAction)
@@ -57,28 +69,41 @@ public class ShootingAgent : Agent
 		{
 			Shoot();
 		}
+
+		Rb.velocity = new Vector3(vectorAction[1] * speed, 0f, vectorAction[2] * speed);
+		//transform.Rotate(Vector3.up, vectorAction[3] * rotationSpeed);
 	}
 
-	//public override void CollectObservations(VectorSensor sensor)
-	//{
-	//	//sensor.AddObservation(shotAvailable);
-	//	base.CollectObservations(sensor);
-	//}
+	public override void CollectObservations(VectorSensor sensor)
+	{
+		//sensor.AddObservation(shotAvailable);
+		base.CollectObservations(sensor);
+	}
 
 	public override void Initialize()
 	{
 		startingPosition = transform.position;
 		Rb = GetComponent<Rigidbody>();
+
+		//TODO: Delete
+		Rb.freezeRotation = true;
+		environmentParameters = Academy.Instance.EnvironmentParameters;
 	}
 
 	public override void Heuristic(float[] actionsOut)
 	{
 		actionsOut[0] = Input.GetKey(KeyCode.P) ? 1f : 0f;
 		//transform.rotation.SetLookRotation();
+		actionsOut[1] = Input.GetAxis("Vertical");
+		actionsOut[2] = -Input.GetAxis("Horizontal");
+		//actionsOut[1] = -Input.GetAxis("Vertical");
+		//actionsOut[3] = Input.GetAxis("Vertical");
 	}
 
 	public override void OnEpisodeBegin()
 	{
+		onEnvironmentReset?.Invoke();
+
 		Debug.Log(message: "Episode Begin");
 		transform.position = startingPosition;
 		Rb.velocity = Vector3.zero;
