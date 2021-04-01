@@ -43,6 +43,7 @@ public class ShootingAgent : Agent
 		else
 		{
 			AddReward(-0.033f);
+			//EndEpisode();
 		}
 
 		shotAvailable = false;
@@ -60,7 +61,7 @@ public class ShootingAgent : Agent
 			}
 		}
 
-		//AddReward(-1f / MaxStep);
+		AddReward(-1f / MaxStep);
 	}
 
     public override void OnActionReceived(float[] vectorAction)
@@ -76,8 +77,8 @@ public class ShootingAgent : Agent
 
 	public override void CollectObservations(VectorSensor sensor)
 	{
-		//sensor.AddObservation(shotAvailable);
-		base.CollectObservations(sensor);
+		sensor.AddObservation(shotAvailable);
+		//base.CollectObservations(sensor);
 	}
 
 	public override void Initialize()
