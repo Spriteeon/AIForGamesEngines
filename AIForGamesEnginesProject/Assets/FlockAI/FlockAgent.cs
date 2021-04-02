@@ -7,6 +7,7 @@ public class FlockAgent : MonoBehaviour
 {
     Collider agentCollider;
     public Collider AgentCollider {  get { return agentCollider; } }
+    public Vector3 moveVelocity;
 
     private bool isInArea = false;
 
@@ -18,9 +19,10 @@ public class FlockAgent : MonoBehaviour
 
     public void Move(Vector3 velocity)
     {
-        //velocity = new Vector3(velocity.x, 0, velocity.z);
         transform.forward = velocity;
         transform.position += velocity * Time.deltaTime;
+
+        moveVelocity = velocity;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -42,5 +44,10 @@ public class FlockAgent : MonoBehaviour
     public bool GetAreaStatus()
     {
         return isInArea;
+    }
+
+    public Transform GetAgentTransformParent()
+    {
+        return transform;
     }
 }

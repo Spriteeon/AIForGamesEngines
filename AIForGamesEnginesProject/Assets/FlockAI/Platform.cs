@@ -6,45 +6,37 @@ using UnityStandardAssets.Characters.FirstPerson;
 
 public class Platform : MonoBehaviour
 {
-   // [SerializeField] private GameObject player;
+    [SerializeField]
+    private FlockAgent agentObj;
+    private GameObject player;
+    private bool playerOn = false;
 
     private void Start()
     {
-        //player = GameObject.FindGameObjectWithTag("Player");
-       // Debug.Log(player);
+        player = GameObject.Find("FPSController");
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        transform.rotation = new UnityEngine.Quaternion(0, transform.parent.rotation.y - transform.parent.rotation.y, 0, 0);
+        if (playerOn)
+        {
+            player.GetComponent<PlayerPlatformMovement>().Move(agentObj.moveVelocity);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("PLAYER ON");
-            //other.transform.parent = transform;
+            playerOn = true;
         }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        //if (other.CompareTag("Player"))
-        //{
-        //    Debug.Log("PLAYER");
-        //    UnityEngine.Vector3 offset = transform.position - other.transform.position;
-        //    offset = new UnityEngine.Vector3(offset.x, 0, offset.z);
-        //    other.GetComponent<FirstPersonController>().OnPlatform(offset);
-        //}
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("PLAYER OFF");
-            //other.transform.parent = null;
+            playerOn = false;
         }
     }
 }
