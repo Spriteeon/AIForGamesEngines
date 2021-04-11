@@ -25,6 +25,8 @@ public class ShootingAgent : Agent
 
 	public event Action onEnvironmentReset;
 
+	public GameObject enemy;
+
 	private void Shoot()
 	{
 		if (!shotAvailable)
@@ -43,7 +45,7 @@ public class ShootingAgent : Agent
 		else
 		{
 			AddReward(-0.033f);
-			//EndEpisode();
+			EndEpisode();
 		}
 
 		shotAvailable = false;
@@ -77,7 +79,10 @@ public class ShootingAgent : Agent
 
 	public override void CollectObservations(VectorSensor sensor)
 	{
+		sensor.AddObservation(gameObject.transform.position.z);
+		sensor.AddObservation(gameObject.transform.position.x);
 		sensor.AddObservation(shotAvailable);
+		sensor.AddObservation(enemy.transform.position - gameObject.transform.position);
 		//base.CollectObservations(sensor);
 	}
 
