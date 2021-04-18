@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class ObstacleAgent : Agent
 {
-	public float speed = 3f;
+	public float speed = 8f;
 	public float rotationSpeed = 3f;
 
 	private Vector3 startingPosition;
@@ -23,7 +23,7 @@ public class ObstacleAgent : Agent
 
 	public override void OnActionReceived(float[] vectorAction)
 	{
-		
+		Rb.velocity = new Vector3(vectorAction[0] * speed, 0f, vectorAction[1] * speed);
 	}
 
 	public override void CollectObservations(VectorSensor sensor)
@@ -39,7 +39,8 @@ public class ObstacleAgent : Agent
 
 	public override void Heuristic(float[] actionsOut)
 	{
-		
+		actionsOut[0] = Input.GetAxis("Horizontal");
+		actionsOut[1] = Input.GetAxis("Vertical");
 	}
 
 	public override void OnEpisodeBegin()
