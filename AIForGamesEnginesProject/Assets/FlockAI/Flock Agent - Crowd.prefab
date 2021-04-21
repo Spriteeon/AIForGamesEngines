@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 3629220441081721273}
   m_Layer: 0
   m_Name: Flock Agent - Crowd
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5338c0fb7fa238479859cd74b610e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveVelocity: {x: 0, y: 0, z: 0}
 --- !u!54 &5201358485587742978
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -29,6 +29,9 @@ TagManager:
   - badFood
   - pit
   - Flock
+  - finish
+  - enemy
+  - die
   layers:
   - Default
   - TransparentFX
@@ -40,8 +43,8 @@ TagManager:
   - 
   - Enemy
   - ObstructedArea
-  - 
-  - 
+  - Wall
+  - Finish
   - 
   - 
   - 
