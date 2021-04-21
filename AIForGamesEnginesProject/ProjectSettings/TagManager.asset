@@ -29,6 +29,7 @@ TagManager:
   - badFood
   - pit
   - Flock
+  - Checkpoint
   layers:
   - Default
   - TransparentFX
