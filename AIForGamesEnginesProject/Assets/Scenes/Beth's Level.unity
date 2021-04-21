@@ -489,7 +489,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 363245883}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.6, y: 1.02, z: -11.86}
+  m_LocalPosition: {x: 9.18, y: 2.12, z: -12.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -901,10 +901,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 363245887}
-  obsructedAreaMask:
+  unwalkableMask:
     serializedVersion: 2
     m_Bits: 512
-  levelGridSize: {x: 30, y: 30}
+  gridWorldSize: {x: 30, y: 30}
   nodeRadius: 0.5
 --- !u!114 &1023414561
 MonoBehaviour:
@@ -918,8 +918,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3ab8039d3c066645b65c5f249d677ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Seeker: {fileID: 363245887}
-  Target: {fileID: 1419610471}
+  seeker: {fileID: 363245887}
+  target: {fileID: 1419610471}
 --- !u!1 &1127593972
 GameObject:
   m_ObjectHideFlags: 0
@@ -1106,7 +1106,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1419610467}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.2, y: 0.99, z: -2.5}
+  m_LocalPosition: {x: 3.79, y: 2.79, z: -2.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
