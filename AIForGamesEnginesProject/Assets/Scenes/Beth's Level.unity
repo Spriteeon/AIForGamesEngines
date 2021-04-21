@@ -414,7 +414,7 @@ GameObject:
   - component: {fileID: 363245885}
   - component: {fileID: 363245884}
   m_Layer: 0
-  m_Name: Seeker
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -489,7 +489,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 363245883}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.18, y: 2.12, z: -12.28}
+  m_LocalPosition: {x: -12.32, y: 2.12, z: -0.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -698,7 +698,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 614682959}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -2.18, y: -0.11, z: 1.72}
+  m_LocalPosition: {x: -2.18, y: -0.05, z: 1.72}
   m_LocalScale: {x: 1.1269302, y: 0.68384, z: 0.8386873}
   m_Children: []
   m_Father: {fileID: 1127593976}
@@ -901,11 +901,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 363245887}
-  unwalkableMask:
+  obstructedMask:
     serializedVersion: 2
     m_Bits: 512
   gridWorldSize: {x: 30, y: 30}
-  nodeRadius: 0.5
+  nodeRad: 1
 --- !u!114 &1023414561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -918,8 +918,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3ab8039d3c066645b65c5f249d677ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seeker: {fileID: 363245887}
-  target: {fileID: 1419610471}
+  enemy: {fileID: 363245887}
+  goal: {fileID: 1419610471}
 --- !u!1 &1127593972
 GameObject:
   m_ObjectHideFlags: 0
@@ -1031,7 +1031,7 @@ GameObject:
   - component: {fileID: 1419610469}
   - component: {fileID: 1419610468}
   m_Layer: 0
-  m_Name: Target
+  m_Name: Goal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

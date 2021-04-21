@@ -7,25 +7,25 @@ public class LevelGrid : MonoBehaviour
     public Transform player;
    
     
-    public LayerMask unwalkableMask;
+    public LayerMask obstructedMask;
    
     public Vector2 gridWorldSize;
     
     //Area of each node on the grid
-    public float nodeRadius;//Array of nodes that make up the level grid.
+    public float nodeRad;//Array of nodes that make up the level grid.
+    float nodeDiam;
     Node[,] grid;
-    float nodeDiameter;
-
-    int gridSizeX, gridSizeY;
+    
+    int gridWidth, gridHeight;
 
    
 
     //Sets initial values and determines grid x and y values based on how many nodes.
     void Awake()
     {
-        nodeDiameter = nodeRadius*2;
-        gridSizeX = Mathf.RoundToInt(gridWorldSize.x/nodeDiameter);
-        gridSizeY = Mathf.RoundToInt(gridWorldSize.y/nodeDiameter);
+        nodeDiam = nodeRad*2;
+        gridWidth = Mathf.RoundToInt(gridWorldSize.x/nodeDiam);
+        gridHeight = Mathf.RoundToInt(gridWorldSize.y/nodeDiam);
 
         GenerateLevelGrid();
     }
@@ -36,25 +36,25 @@ public class LevelGrid : MonoBehaviour
     /*Gets each world point at which each node will be located. */
     void GenerateLevelGrid()
     {
-        grid = new Node[gridSizeX,gridSizeY];
+        grid = new Node[gridWidth,gridHeight];
 
-        Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x/2 - Vector3.forward * gridWorldSize.y / 2;
+        Vector3 lowerLeftCorner = transform.position - Vector3.right * gridWorldSize.x/2 - Vector3.forward * gridWorldSize.y / 2;
 
-        for(int x = 0; x < gridSizeX; x++)
+        for(int x = 0; x < gridWidth; x++)
         {
-            for(int y = 0; y < gridSizeY; y++)
+            for(int y = 0; y < gridHeight; y++)
             {
-                Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
+                Vector3 worldPos = lowerLeftCorner + Vector3.right * (x * nodeDiam + nodeRad) + Vector3.forward * (y * nodeDiam + nodeRad);
 
-                bool walkable = !(Physics.CheckSphere(worldPoint,nodeRadius,unwalkableMask));
-                grid[x,y] = new Node(walkable,worldPoint, x,y);
+                bool walkable = !(Physics.CheckSphere(worldPos,nodeRad,obstructedMask));
+                grid[x,y] = new Node(walkable,worldPos, x,y);
             }
         }
     }
 
-    public List<Node> GetNeighbours(Node node)
+    public List<Node> GetAdjacentNodes(Node currentNode)
     {
-        List<Node> neighbours = new List<Node>();
+        List<Node> adjacentNodes = new List<Node>();
 
         for (int x = -1; x <= 1; x++)
         {
@@ -65,17 +65,17 @@ public class LevelGrid : MonoBehaviour
                     continue;
                 }
 
-                int checkX = node.gridX + x;
-                int checkY = node.gridY + y;
+                int X = currentNode.nodePosOnGridX + x;
+                int Y = currentNode.nodePosOnGridY + y;
 
-                if(checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY)
+                if(X >= 0 && X < gridWidth && Y >= 0 && Y < gridHeight)
                 {
-                    neighbours.Add(grid[checkX, checkY]);
+                    adjacentNodes.Add(grid[X, Y]);
                 }
             }
         }
 
-        return neighbours;
+        return adjacentNodes;
     }
 
     public Node NodeFromWorldPoint(Vector3 worldPosition)
@@ -87,15 +87,17 @@ public class LevelGrid : MonoBehaviour
         percentX = Mathf.Clamp01(percentX);
         percentY = Mathf.Clamp01(percentY);
 
-        int x = Mathf.RoundToInt((gridSizeX-1) * percentX);
-        int y = Mathf.RoundToInt((gridSizeY-1) * percentY);
+        int x_ = Mathf.RoundToInt((gridWidth-1) * percentX);
+        int y_ = Mathf.RoundToInt((gridHeight-1) * percentY);
 
-        return grid[x,y];
+        return grid[x_,y_];
     }
 
-    public List<Node> path;
+    public List<Node> finalPath;
 
-    //public AStar algorithm;
+    
+    //Allows visualisation of grid in 3d space as well as specific elements in different colours. 
+    //For debugging ONLY.
     void OnDrawGizmos()
     {
         
@@ -105,11 +107,11 @@ public class LevelGrid : MonoBehaviour
             Node playerNode = NodeFromWorldPoint(player.position);
             foreach(Node n in grid) 
             {
-                Gizmos.color = (n.walkable)?Color.white:Color.red;
+                Gizmos.color = (n.notObstructed)?Color.white:Color.red;
 
-                if(path != null)
+                if(finalPath != null)
                 {
-                    if(path.Contains(n))
+                    if(finalPath.Contains(n))
                     {
                         Gizmos.color = Color.blue;
                     }
@@ -117,21 +119,13 @@ public class LevelGrid : MonoBehaviour
                 if(playerNode == n)
                 {
                     Gizmos.color = Color.black;
-                    //if (FPath != null)
-                    //{
-                    //     if (FPath.Contains(n))
-                    //     {
-                             
-                    //         Debug.Log("fuck");
-                    //      }
-                       
-                    //}
+                   
 
                 }
                 
                   
 
-                Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter-.1f));
+                Gizmos.DrawCube(n.nodeWorldPosition, Vector3.one * (nodeDiam-.1f));
             }
         }
     }

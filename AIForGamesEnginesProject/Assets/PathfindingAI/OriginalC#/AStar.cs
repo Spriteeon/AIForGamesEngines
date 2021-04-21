@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AStar : MonoBehaviour
 {
-    public Transform seeker, target;
+    public Transform enemy, goal;
 
     LevelGrid grid;
 
@@ -18,103 +18,103 @@ public class AStar : MonoBehaviour
 
     void Update()
     {
-        FindPath(seeker.position, target.position);
+        CalculateOptimalPath(enemy.position, goal.position);
     }
 
 
-    void FindPath(Vector3 startPos, Vector3 targetPos)
+    void CalculateOptimalPath(Vector3 enemyPos, Vector3 goalPos)
     {
         //The start and end of the path. Used to determin the path that needs calculating. 
-        Node startNode = grid.NodeFromWorldPoint(startPos);
-        Node targetNode = grid.NodeFromWorldPoint(targetPos);
+        Node enemyStartNode = grid.NodeFromWorldPoint(enemyPos);
+        Node goalNode = grid.NodeFromWorldPoint(goalPos);
 
         //groups of open and closed nodes used in pathfinding calculations. 
         //Open = is yet to be checked but is in range. Closed = has been checked and processed. 
-        List<Node> openSet = new List<Node>();
-        HashSet<Node> closedSet = new HashSet<Node>();
+        List<Node> openNodesList = new List<Node>();
+        List<Node> closedNodesList = new List<Node>();
 
-        openSet.Add(startNode);
+        openNodesList.Add(enemyStartNode);
 
-        while(openSet.Count > 0) 
+        while(openNodesList.Count > 0) 
         {
-            Node node = openSet[0];
-            for(int i = 1; i < openSet.Count; i++) 
+            Node currentNode = openNodesList[0];
+            for(int i = 1; i < openNodesList.Count; i++) 
             {
                 
-                if(openSet[i].fCost < node.fCost || openSet[i].fCost == node.fCost) 
+                if(openNodesList[i].fcost < currentNode.fcost || openNodesList[i].fcost == currentNode.fcost) 
                 {
-                    if (openSet[i].hCost < node.hCost)
+                    if (openNodesList[i].h < currentNode.h)
                     {
-                        node = openSet[i];
+                        currentNode = openNodesList[i];
                     }
                         
                     
                 }
             }
                
-            openSet.Remove(node);
-            closedSet.Add(node);
+            openNodesList.Remove(currentNode);
+            closedNodesList.Add(currentNode);
             
-            if(node == targetNode) 
+            if(currentNode == goalNode) 
             {
-                RetracePath(startNode,targetNode);
+                RetracePath(enemyStartNode,goalNode);
                  return;
             }
 
 
-            foreach(Node neighbour in grid.GetNeighbours(node)) 
+            foreach(Node adjacentNode in grid.GetAdjacentNodes(currentNode)) 
             {
-                if (!neighbour.walkable || closedSet.Contains(neighbour))
+                if (!adjacentNode.notObstructed || closedNodesList.Contains(adjacentNode))
                 {
                     continue;
                    
                 }
 
-                int newCostToNeighbour = node.gCost + GetDistance(node, neighbour);
-               if (newCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
+                int newMovementCost = currentNode.g + GetDistanceBetweenNodes(currentNode, adjacentNode);
+               if (newMovementCost < adjacentNode.g || !openNodesList.Contains(adjacentNode))
                {
-                  neighbour.gCost = newCostToNeighbour;
-                  neighbour.hCost = GetDistance(neighbour, targetNode);
-                  neighbour.parent = node;
+                  adjacentNode.g = newMovementCost;
+                  adjacentNode.h = GetDistanceBetweenNodes(adjacentNode, goalNode);
+                  adjacentNode.parentNode = currentNode;
 
-                 if (!openSet.Contains(neighbour))
+                 if (!openNodesList.Contains(adjacentNode))
                  {
-                        openSet.Add(neighbour);
+                        openNodesList.Add(adjacentNode);
                  }    
                }
             }
         }  
     }
 
+    int GetDistanceBetweenNodes(Node A, Node B)
+    {
+        int distanceX = Mathf.Abs(A.nodePosOnGridX - B.nodePosOnGridX);
+        int distanceY = Mathf.Abs(A.nodePosOnGridY - B.nodePosOnGridY);
+
+        if(distanceX > distanceY)
+        {
+            return 14*distanceY + 10* (distanceX-distanceY);
+        }
+           
+        return 14*distanceX + 10 * (distanceY-distanceX);
+        
+    }
+
     void RetracePath(Node startNode, Node endNode)
     {
-        List<Node> path = new List<Node>();
+        List<Node> finalPath = new List<Node>();
         Node currentNode = endNode;
 
         while(currentNode != startNode)
         {
-            path.Add(currentNode);
-            currentNode = currentNode.parent;
+            finalPath.Add(currentNode);
+            currentNode = currentNode.parentNode;
         }
-        path.Reverse();
-        grid.path = path;
+        finalPath.Reverse();
+        grid.finalPath = finalPath;
 
         //grid.FPath = finalPath;
     }
 
 
-
-    int GetDistance(Node nodeA, Node nodeB)
-    {
-        int dstX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
-        int dstY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
-
-        if(dstX > dstY)
-        {
-            return 14*dstY + 10* (dstX-dstY);
-        }
-           
-        return 14*dstX + 10 * (dstY-dstX);
-        
-    }
 }

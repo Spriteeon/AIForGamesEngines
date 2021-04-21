@@ -4,32 +4,36 @@ using UnityEngine;
 
 public class Node
 {
-    public bool walkable;
-    public Vector3 worldPosition;
+    //G and H cost of each node used to calculate the f cost.
+    public int g;
+    public int h;
 
-    public int gridX;
-    public int gridY;
+
+    public int nodePosOnGridX;
+    public int nodePosOnGridY;
     
-    public int gCost;
-    public int hCost;
+    public bool notObstructed;
+    public Vector3 nodeWorldPosition;
+   
 
-    public Node parent;
+    public Node parentNode;
     
 
 
-    public Node(bool _walkable, Vector3 _worldPos, int _gridX, int _gridY)
+    public Node(bool _notObstructed, Vector3 _nodeWorldPos, int _posOnGridX, int _posOnGridY)
     {
-        walkable = _walkable;
-        worldPosition = _worldPos;
-        gridX = _gridX;
-        gridY = _gridY;
+        notObstructed = _notObstructed;
+        nodeWorldPosition = _nodeWorldPos;
+        nodePosOnGridX = _posOnGridX;
+        nodePosOnGridY = _posOnGridY;
     }
 
-    public int fCost
+    //obtaining the value of the f cost.
+    public int fcost
     {
         get
         {
-            return gCost + hCost;
+            return g + h;
         }
         
     }
