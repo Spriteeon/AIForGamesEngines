@@ -20,6 +20,8 @@ public class ObstacleAgent : Agent
 	float distanceToFinish;
 	float oldDistanceToFinish;
 
+	int timer;
+
 	public override void Initialize()
 	{
 		startingPosition = transform.position;
@@ -29,6 +31,8 @@ public class ObstacleAgent : Agent
 	public override void OnEpisodeBegin()
 	{
 		onEnvironmentReset?.Invoke();
+
+		timer = 0;
 
 		Debug.Log(message: "Episode Begin");
 		transform.position = startingPosition;
@@ -40,6 +44,8 @@ public class ObstacleAgent : Agent
 
 	private void FixedUpdate()
 	{
+		timer++;
+
 		distanceToFinish = Vector3.Distance(gameObject.transform.position, finish.transform.position);
 		if(distanceToFinish < oldDistanceToFinish)
         {
@@ -88,7 +94,7 @@ public class ObstacleAgent : Agent
 		//}
 		if (collision.gameObject.CompareTag("finish"))
         {
-			AddReward(100f);
+			AddReward(100000f / timer);
 			EndEpisode();
         }
 	}
