@@ -49,7 +49,7 @@ public class ObstacleAgent : Agent
 		distanceToFinish = Vector3.Distance(gameObject.transform.position, finish.transform.position);
 		if(distanceToFinish < oldDistanceToFinish)
         {
-			AddReward(1f);
+			//AddReward(1f);
 		}
         else
         {
