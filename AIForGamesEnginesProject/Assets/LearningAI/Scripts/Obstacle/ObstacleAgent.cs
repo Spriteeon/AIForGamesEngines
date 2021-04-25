@@ -16,9 +16,13 @@ public class ObstacleAgent : Agent
 
 	public event Action onEnvironmentReset;
 	public GameObject finish;
+	public GameObject obstacleTile;
 
 	float distanceToFinish;
 	float oldDistanceToFinish;
+	float obstacleRotationAngle;
+
+	Vector3 straightVelocity;
 
 	int timer;
 
@@ -26,6 +30,9 @@ public class ObstacleAgent : Agent
 	{
 		startingPosition = transform.position;
 		Rb = GetComponent<Rigidbody>();
+
+		//obstacleRotationAngle = obstacleTile.transform.rotation.y;
+		obstacleRotationAngle = obstacleTile.transform.localRotation.eulerAngles.y;
 	}
 
 	public override void OnEpisodeBegin()
@@ -40,6 +47,8 @@ public class ObstacleAgent : Agent
 
 		distanceToFinish = Vector3.Distance(gameObject.transform.position, finish.transform.position);
 		oldDistanceToFinish = distanceToFinish;
+
+		//obstacleRotationAngle = obstacleTile.transform.rotation.y;
 	}
 
 	private void FixedUpdate()
@@ -60,7 +69,10 @@ public class ObstacleAgent : Agent
 
 	public override void OnActionReceived(float[] vectorAction)
 	{
-		Rb.velocity = new Vector3(vectorAction[0] * speed, 0f, vectorAction[1] * speed);
+		straightVelocity = new Vector3(vectorAction[0] * speed, 0f, vectorAction[1] * speed);
+
+		Rb.velocity = Quaternion.AngleAxis(obstacleRotationAngle, Vector3.up) * straightVelocity;
+		//Rb.velocity = Quaternion.AngleAxis(45, Vector3.up) * straightVelocity;
 	}
 
 	public override void CollectObservations(VectorSensor sensor)
