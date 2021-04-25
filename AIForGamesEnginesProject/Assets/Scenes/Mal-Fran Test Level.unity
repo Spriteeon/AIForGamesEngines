@@ -833,7 +833,7 @@ MonoBehaviour:
     VectorActionSize: 02000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
-  m_Model: {fileID: 5022602860645237092, guid: 1fdfd4fb7e557a34ca6f7c58dbc50ea3, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 97c057a199a058c44917a8156465f5fc, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: My Behavior
@@ -1203,7 +1203,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1842739647}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -120.567215, y: 0, z: -124.52616}
+  m_LocalPosition: {x: -120.36604, y: 0, z: -124.589775}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 859219865}
