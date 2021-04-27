@@ -16,7 +16,7 @@ public class SteeredCohesionBehaviour : FlockBehaviour
         }
 
         // Add all points and average out
-        Vector3 cohesionMove = Vector3.zero;
+        Vector3 cohesionMove = Vector3.zero; 
         foreach (Transform item in context)
         {
             cohesionMove += item.position;

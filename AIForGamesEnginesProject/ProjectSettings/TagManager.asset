@@ -33,6 +33,7 @@ TagManager:
   - enemy
   - die
   - Checkpoint
+  - CrowdAgent
   layers:
   - Default
   - TransparentFX

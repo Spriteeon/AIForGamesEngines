@@ -10,6 +10,9 @@ public class OutOfWorld : MonoBehaviour
     [SerializeField]
     private GameController gameController;
 
+    [SerializeField]
+    private AudioClip fallingSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +23,7 @@ public class OutOfWorld : MonoBehaviour
     {
        if (other.CompareTag("Player"))
        {
-            Debug.Log("Player fell out of world!");
+            AudioSource.PlayClipAtPoint(fallingSound, other.GetComponent<PlayerController>().GetCurrentCheckpoint().transform.position);
             gameController.RespawnPlayer();
        }
     }

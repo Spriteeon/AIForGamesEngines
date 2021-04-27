@@ -26,7 +26,7 @@ public class GameController : MonoBehaviour
         {
             Debug.Log(checkpoint.transform.position);
             player.GetComponent<FirstPersonController>().m_CharacterController.enabled = false;
-            player.GetComponent<FirstPersonController>().m_CharacterController.transform.position = checkpoint.transform.position + new Vector3(-10,5,0); // Spawns player above spawn point so they fall to platform
+            player.GetComponent<FirstPersonController>().m_CharacterController.transform.position = checkpoint.transform.position + new Vector3(-10,25,0); // Spawns player above spawn point so they fall to platform
             player.GetComponent<FirstPersonController>().m_CharacterController.enabled = true;
         }
         else

@@ -44,7 +44,7 @@ public class Flock : MonoBehaviour
     private Vector3 resetHeight = new Vector3(1, 1, 1);
 
     [SerializeField]
-    private bool IsYZero = false;
+    private bool isCrowd = false;
 
     float squareMaxSpeed;
     float squareNeighbourRadius;
@@ -65,7 +65,7 @@ public class Flock : MonoBehaviour
         {
             // Spawn area
             Vector3 spawnPos;
-            if (IsYZero)
+            if (!isCrowd)
             {
                 spawnPos = new Vector3(Random.Range(area.minPos.x, area.maxPos.x), 0, Random.Range(area.minPos.z, area.maxPos.z));
             }
@@ -81,6 +81,10 @@ public class Flock : MonoBehaviour
                 transform
                 );
             newAgent.name = "Agent " + i;
+            if (isCrowd)
+            {
+                newAgent.tag = "CrowdAgent";
+            }
             agents.Add(newAgent);
 
             newAgent.transform.localScale = agentScaleSize;
