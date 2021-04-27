@@ -5,7 +5,13 @@ using UnityEngine;
 public class AStar : MonoBehaviour
 {
     public Transform enemy, goal;
-
+    public float enemySpeed;
+    private Vector3 enemyStart;
+    
+    private float fraction;
+    public Vector3 currentVelocity;
+    public Vector3 positionAddition;
+    
     LevelGrid grid;
 
     //public List<Node> finalPath;
@@ -19,6 +25,8 @@ public class AStar : MonoBehaviour
     void Update()
     {
         CalculateOptimalPath(enemy.position, goal.position);
+
+        
     }
 
 
@@ -104,6 +112,7 @@ public class AStar : MonoBehaviour
     {
         List<Node> finalPath = new List<Node>();
         Node currentNode = endNode;
+        
 
         while(currentNode != startNode)
         {
@@ -114,7 +123,33 @@ public class AStar : MonoBehaviour
         grid.finalPath = finalPath;
 
         //grid.FPath = finalPath;
-    }
-
-
+        // Vector3 movementVec = Vector3.zero;
+        //if(finalPath != null)
+        //{
+        //    foreach(Node n in finalPath)
+        //    {
+        //        if(fraction < 1)
+        //        {
+        //            fraction += Time.deltaTime * enemySpeed;
+        //            enemy.transform.position = n.nodeWorldPosition;
+        //        }
+        //        //movementVec += n.nodeWorldPosition;
+        //       // enemy.transform.position = n.nodeWorldPosition;
+        //    }
+        // enemy.transform.position
+        enemyStart = enemy.position;
+        //enemyGoal = goal.position;
+        
+        foreach(Node n in finalPath)
+        {
+            
+            
+              // fraction += Time.deltaTime * enemySpeed;
+              // enemy.transform.position = Vector3.Lerp(enemyStart, n.nodeWorldPosition, fraction);
+               enemy.transform.position = Vector3.SmoothDamp(enemyStart, finalPath[0].nodeWorldPosition + positionAddition, ref currentVelocity, enemySpeed);
+            
+        }
+        
+        //}
+    }   
 }
