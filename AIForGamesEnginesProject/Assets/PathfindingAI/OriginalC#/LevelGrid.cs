@@ -116,6 +116,11 @@ public class LevelGrid : MonoBehaviour
                         Gizmos.color = Color.blue;
                     }
                 }
+                else
+                {
+                    Debug.Log("Null final path");
+                }
+
                 if(playerNode == n)
                 {
                     Gizmos.color = Color.black;

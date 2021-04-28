@@ -17,7 +17,7 @@ public class AStar : MonoBehaviour
     //public List<Node> finalPath;
      
 
-    void Awake()
+    void Start()
     {
         grid = GetComponent<LevelGrid> ();
     }
@@ -146,7 +146,7 @@ public class AStar : MonoBehaviour
             
               // fraction += Time.deltaTime * enemySpeed;
               // enemy.transform.position = Vector3.Lerp(enemyStart, n.nodeWorldPosition, fraction);
-               enemy.transform.position = Vector3.SmoothDamp(enemyStart, finalPath[0].nodeWorldPosition + positionAddition, ref currentVelocity, enemySpeed);
+               enemy.transform.position = Vector3.SmoothDamp(enemyStart, finalPath[0]/*n*/.nodeWorldPosition + positionAddition, ref currentVelocity, enemySpeed);
             
         }
         

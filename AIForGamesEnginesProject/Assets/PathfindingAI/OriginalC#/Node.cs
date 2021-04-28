@@ -14,16 +14,17 @@ public class Node
     
     public bool notObstructed;
     public Vector3 nodeWorldPosition;
-   
+   // public Vector3 nodeRelativePos;
 
     public Node parentNode;
     
 
 
-    public Node(bool _notObstructed, Vector3 _nodeWorldPos, int _posOnGridX, int _posOnGridY)
+    public Node(bool _notObstructed, Vector3 _nodeWorldPos/*_nodeRelativePos*/, int _posOnGridX, int _posOnGridY)
     {
         notObstructed = _notObstructed;
         nodeWorldPosition = _nodeWorldPos;
+        //nodeRelativePos = _nodeRelativePos;
         nodePosOnGridX = _posOnGridX;
         nodePosOnGridY = _posOnGridY;
     }
