@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 14300000}
   - component: {fileID: 7704621416224770234}
   - component: {fileID: 11400000}
+  - component: {fileID: 371443091}
   - component: {fileID: 5400000}
   - component: {fileID: 8200000}
   m_Layer: 0
@@ -191,6 +192,24 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8bc94ec6ed537e743b481638bdcd503d, type: 3}
   m_JumpSound: {fileID: 8300000, guid: 5897aeed9b676024fbb8c694b421a861, type: 3}
   m_LandSound: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
+  m_Camera: {fileID: 0}
+  m_CharacterController: {fileID: 0}
+--- !u!114 &371443091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6719482ac676144d8e66a3e38f8424b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameController: {fileID: 0}
+  currentCheckpoint: {fileID: 0}
+  checkpointSound: {fileID: 8300000, guid: 6c901ef05a3c8ba47833b666a975081c, type: 3}
+  bounceForce: 53
 --- !u!54 &5400000
 Rigidbody:
   m_ObjectHideFlags: 0

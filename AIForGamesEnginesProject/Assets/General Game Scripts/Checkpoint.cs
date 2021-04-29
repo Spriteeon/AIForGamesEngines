@@ -16,7 +16,7 @@ public class Checkpoint : MonoBehaviour
 
         if (!player)
         {
-            throw new System.Exception("Checkpoint missing player reference!");
+            throw new System.Exception("Checkpoint: Missing player reference!");
         }
     }
 

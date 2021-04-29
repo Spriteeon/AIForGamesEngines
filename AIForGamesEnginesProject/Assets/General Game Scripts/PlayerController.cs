@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
 
     [SerializeField]
+    private GameController gameController;
+    [SerializeField]
     private GameObject currentCheckpoint;
 
     [SerializeField]
@@ -22,6 +24,11 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (!gameController)
+        {
+            throw new System.Exception("Player: Game controller null");
+        }
+
         playerCollider = GetComponent<Collider>();
         rb = GetComponent<Rigidbody>();
     }
@@ -36,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("CrowdAgent"))
+        if(collision.gameObject.CompareTag("CrowdAgent")) // Knock's back player when they hit a crowd agent
         {
             if (!knockBackActive)
             {
@@ -59,6 +66,7 @@ public class PlayerController : MonoBehaviour
         knockBackActive = false;
         GetComponent<FirstPersonController>().m_CharacterController.enabled = true;
         rb.isKinematic = true;
+        gameController.AddScore(-10); 
     }
 
     public GameObject GetCurrentCheckpoint()
@@ -68,8 +76,13 @@ public class PlayerController : MonoBehaviour
 
     public void SetCurrentCheckpoint(GameObject checkpoint)
     {
-        currentCheckpoint = checkpoint;
-        AudioSource.PlayClipAtPoint(checkpointSound, transform.position);
-        Debug.Log("Player set new checkpoint!");
+        if (currentCheckpoint != checkpoint)
+        {
+            currentCheckpoint = checkpoint;
+            AudioSource.PlayClipAtPoint(checkpointSound, transform.position);
+            gameController.AddScore(250);
+
+            Debug.Log("Player set new checkpoint!");
+        }
     }
 }
