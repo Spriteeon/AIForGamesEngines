@@ -24,7 +24,6 @@ public class AvoidanceBehaviour : FlockBehaviour
             }
         }
         
-        if(nAvoid > 0)
         {
             avoidanceMove /= nAvoid;
         }

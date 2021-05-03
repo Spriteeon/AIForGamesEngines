@@ -30,10 +30,9 @@ public class Flock : MonoBehaviour
 
     [Range(10, 100)]
     public int startingCount = 40;
-    const float AgentDensity = 1f;
 
     [Range(1f, 100f)]
-    public float driveFactor = 10f;
+    public float driveFactor = 10f; // Makes agents move faster 
     [Range(1f, 100f)]
     public float maxSpeed = 5f;
     [Range(1f, 20f)]
@@ -65,7 +64,7 @@ public class Flock : MonoBehaviour
         {
             // Spawn area
             Vector3 spawnPos;
-            if (!isCrowd)
+            if (!isCrowd) // Limits spawn to y = 0 -- keeps tiles level
             {
                 spawnPos = new Vector3(Random.Range(area.minPos.x, area.maxPos.x), 0, Random.Range(area.minPos.z, area.maxPos.z));
             }
