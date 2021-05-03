@@ -24,6 +24,7 @@ public class AvoidanceBehaviour : FlockBehaviour
             }
         }
         
+        if(nAvoid > 0) // If theres objects to avoid
         {
             avoidanceMove /= nAvoid;
         }
