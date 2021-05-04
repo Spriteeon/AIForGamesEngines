@@ -98,43 +98,43 @@ public class LevelGrid : MonoBehaviour
 
     public List<Node> finalPath;
 
-    
+
     //Allows visualisation of grid in 3d space as well as specific elements in different colours. 
     //For debugging ONLY.
-    void OnDrawGizmos()
-    {
-        
-        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x,1,gridWorldSize.y));
-        if(grid != null) 
-        {
-            Node playerNode = NodePosInWorld(player.position);
-            foreach(Node n in grid) 
-            {
-                Gizmos.color = (n.notObstructed)?Color.white:Color.red;
+    //void OnDrawGizmos()
+    //{
 
-                if(finalPath != null)
-                {
-                    if(finalPath.Contains(n))
-                    {
-                        Gizmos.color = Color.blue;
-                    }
-                }
-                else
-                {
-                    Debug.Log("Null final path");
-                }
+    //    Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
+    //    if (grid != null)
+    //    {
+    //        Node playerNode = NodePosInWorld(player.position);
+    //        foreach (Node n in grid)
+    //        {
+    //            Gizmos.color = (n.notObstructed) ? Color.white : Color.red;
 
-                if(playerNode == n)
-                {
-                    Gizmos.color = Color.black;
-                   
+    //            if (finalPath != null)
+    //            {
+    //                if (finalPath.Contains(n))
+    //                {
+    //                    Gizmos.color = Color.blue;
+    //                }
+    //            }
+    //            else
+    //            {
+    //                Debug.Log("Null final path");
+    //            }
 
-                }
-                
-                  
+    //            if (playerNode == n)
+    //            {
+    //                Gizmos.color = Color.black;
 
-                Gizmos.DrawCube(n.nodeWorldPosition, Vector3.one * (nodeDiam-.1f));
-            }
-        }
-    }
+
+    //            }
+
+
+
+    //            Gizmos.DrawCube(n.nodeWorldPosition, Vector3.one * (nodeDiam - .1f));
+    //        }
+    //    }
+    //}
 }
