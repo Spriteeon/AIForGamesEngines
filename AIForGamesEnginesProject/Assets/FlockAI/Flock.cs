@@ -82,7 +82,8 @@ public class Flock : MonoBehaviour
             newAgent.name = "Agent " + i;
             if (isCrowd)
             {
-                newAgent.tag = "CrowdAgent";
+                //newAgent.tag = "CrowdAgent";
+                newAgent.tag = "enemy";
             }
             agents.Add(newAgent);
 
