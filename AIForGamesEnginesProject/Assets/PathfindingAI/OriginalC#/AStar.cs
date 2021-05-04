@@ -33,8 +33,8 @@ public class AStar : MonoBehaviour
     void CalculateOptimalPath(Vector3 enemyPos, Vector3 goalPos)
     {
         //The start and end of the path. Used to determin the path that needs calculating. 
-        Node enemyStartNode = grid.NodeFromWorldPoint(enemyPos);
-        Node goalNode = grid.NodeFromWorldPoint(goalPos);
+        Node enemyStartNode = grid.NodePosInWorld(enemyPos);
+        Node goalNode = grid.NodePosInWorld(goalPos);
 
         //groups of open and closed nodes used in pathfinding calculations. 
         //Open = is yet to be checked but is in range. Closed = has been checked and processed. 

@@ -24,8 +24,8 @@ public class LevelGrid : MonoBehaviour
     void Awake()
     {
         nodeDiam = nodeRad*2;
-        gridWidth = Mathf.RoundToInt(gridWorldSize.x/nodeDiam);
-        gridHeight = Mathf.RoundToInt(gridWorldSize.y/nodeDiam);
+        gridWidth = Mathf.RoundToInt(this.gridWorldSize.x/nodeDiam);
+        gridHeight = Mathf.RoundToInt(this.gridWorldSize.y/nodeDiam);
 
         GenerateLevelGrid();
     }
@@ -38,14 +38,14 @@ public class LevelGrid : MonoBehaviour
     {
         grid = new Node[gridWidth,gridHeight];
 
-        Vector3 lowerLeftCorner = transform.position - Vector3.right * gridWorldSize.x/2 - Vector3.forward * gridWorldSize.y / 2;
+        Vector3 lowerLeftCorner = this.transform.position - Vector3.right * gridWorldSize.x/2 - Vector3.forward * gridWorldSize.y / 2;
 
         for(int x = 0; x < gridWidth; x++)
         {
             for(int y = 0; y < gridHeight; y++)
             {
                 Vector3 worldPos = lowerLeftCorner + Vector3.right * (x * nodeDiam + nodeRad) + Vector3.forward * (y * nodeDiam + nodeRad);
-
+                //Vector3 worldPos = transform.position;
                 bool walkable = !(Physics.CheckSphere(worldPos,nodeRad,obstructedMask));
                 grid[x,y] = new Node(walkable,worldPos, x,y);
             }
@@ -78,10 +78,10 @@ public class LevelGrid : MonoBehaviour
         return adjacentNodes;
     }
 
-    public Node NodeFromWorldPoint(Vector3 worldPosition)
+    public Node NodePosInWorld(Vector3 worldNodePosition)
     {
-        float percentX = (worldPosition.x + gridWorldSize.x/2) / gridWorldSize.x;
-        float percentY = (worldPosition.z + gridWorldSize.y/2) / gridWorldSize.y;
+        float percentX = (worldNodePosition.x + gridWorldSize.x/2) / gridWorldSize.x;
+        float percentY = (worldNodePosition.z + gridWorldSize.y/2) / gridWorldSize.y;
 
         //Preventing erorrs if pos is outside grid bounds.
         percentX = Mathf.Clamp01(percentX);
@@ -89,8 +89,11 @@ public class LevelGrid : MonoBehaviour
 
         int x_ = Mathf.RoundToInt((gridWidth-1) * percentX);
         int y_ = Mathf.RoundToInt((gridHeight-1) * percentY);
-
+        
+        //Debug.Log(grid[x_, y_]);
         return grid[x_,y_];
+       
+        
     }
 
     public List<Node> finalPath;
@@ -104,7 +107,7 @@ public class LevelGrid : MonoBehaviour
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x,1,gridWorldSize.y));
         if(grid != null) 
         {
-            Node playerNode = NodeFromWorldPoint(player.position);
+            Node playerNode = NodePosInWorld(player.position);
             foreach(Node n in grid) 
             {
                 Gizmos.color = (n.notObstructed)?Color.white:Color.red;
