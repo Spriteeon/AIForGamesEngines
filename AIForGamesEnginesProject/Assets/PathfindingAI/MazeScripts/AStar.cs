@@ -11,6 +11,8 @@ public class AStar : MonoBehaviour
     private float fraction;
     public Vector3 currentVelocity;
     public Vector3 positionAddition;
+
+    public bool canRunAlgorithm;
     
     LevelGrid grid;
 
@@ -20,13 +22,15 @@ public class AStar : MonoBehaviour
     void Start()
     {
         grid = GetComponent<LevelGrid> ();
+        canRunAlgorithm = false;
     }
 
     void Update()
     {
-        CalculateOptimalPath(enemy.position, goal.position);
-
-        
+        if(canRunAlgorithm)
+        {
+            CalculateOptimalPath(enemy.position, goal.position);
+        }
     }
 
 
