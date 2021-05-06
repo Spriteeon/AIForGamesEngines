@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("CrowdAgent")) // Knock's back player when they hit a crowd agent
+        if(collision.gameObject.CompareTag("Enemy")) // Knock's back player when they hit a crowd agent
         {
             if (!knockBackActive)
             {
