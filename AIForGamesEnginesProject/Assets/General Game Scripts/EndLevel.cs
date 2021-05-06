@@ -12,6 +12,11 @@ public class EndLevel : MonoBehaviour
     private GameObject endLevelUI;
     [SerializeField]
     private GameObject nextLevelButton;
+    [SerializeField]
+    private GameObject pointsText;
+
+    [SerializeField]
+    int pointsNeeded = 1000;
 
     [SerializeField]
     private bool lastLevel = false;
@@ -35,7 +40,18 @@ public class EndLevel : MonoBehaviour
 
             // Displays end UI and allows mouse cursor use
             endLevelUI.SetActive(true);
-            
+
+            if (gameController.GetScore() >= pointsNeeded)
+            {
+                nextLevelButton.SetActive(true);
+                pointsText.SetActive(false);
+            }
+            else
+            {
+                nextLevelButton.SetActive(false);
+                pointsText.SetActive(true);
+            }
+
             if (lastLevel)
             {
                 nextLevelButton.SetActive(false);

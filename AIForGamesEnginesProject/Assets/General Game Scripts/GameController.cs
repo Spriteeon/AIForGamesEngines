@@ -145,4 +145,9 @@ public class GameController : MonoBehaviour
     {
         m_CurrentState = newState;
     }
+
+    public int GetScore()
+    {
+        return playerScore;
+    }
 }
