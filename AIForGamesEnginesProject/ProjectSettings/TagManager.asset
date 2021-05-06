@@ -47,7 +47,7 @@ TagManager:
   - ObstructedArea
   - Wall
   - Finish
-  - 
+  - FlockObstacle
   - 
   - 
   - 
