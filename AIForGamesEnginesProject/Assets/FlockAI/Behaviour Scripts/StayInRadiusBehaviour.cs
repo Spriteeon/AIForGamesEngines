@@ -23,5 +23,14 @@ public class StayInRadiusBehaviour : FlockBehaviour
 
         Vector3 centreOffset = centre - agent.transform.position;
         return centreOffset;
+
+        //Vector3 centreOffset = centre - agent.transform.position;
+        //float t = centreOffset.magnitude / radius;
+        //if (t < 0.9)
+        //{
+        //    return Vector3.zero;
+        //}
+
+        //return centreOffset * t * t;
     }
 }
