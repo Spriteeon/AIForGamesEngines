@@ -14,7 +14,7 @@ public class AlignmentBehaviour : FilteredFlockBehaviour
 
         // Add all points and average out
         Vector3 alignmentMove = Vector3.zero;
-        List<Transform> filteredContext = (filter == null) ? context : filter.Filter(agent, context);
+        List<Transform> filteredContext = (filter == null) ? context : filter.Filter(agent, context); // Determines if there is a filter placed on this behaviour
         foreach (Transform item in filteredContext)
         {
             alignmentMove += item.transform.up;
