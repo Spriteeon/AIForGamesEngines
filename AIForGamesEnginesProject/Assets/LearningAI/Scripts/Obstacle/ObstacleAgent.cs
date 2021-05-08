@@ -99,11 +99,6 @@ public class ObstacleAgent : Agent
 			AddReward(-1f);
 			//EndEpisode();
 		}
-		//if (collision.gameObject.CompareTag("die"))
-		//{
-		//	AddReward(-0.5f);
-		//	EndEpisode();
-		//}
 		if (collision.gameObject.CompareTag("finish"))
         {
 			AddReward(100000f / timer);
