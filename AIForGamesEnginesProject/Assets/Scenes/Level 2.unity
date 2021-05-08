@@ -340,13 +340,18 @@ PrefabInstance:
       objectReference: {fileID: 371443084}
     - target: {fileID: 4570616831641505606, guid: cd47fd618fa2b9042a7c4c15e2455493,
         type: 3}
+      propertyPath: maxSpeed
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570616831641505606, guid: cd47fd618fa2b9042a7c4c15e2455493,
+        type: 3}
       propertyPath: driveFactor
-      value: 33.2
+      value: 18.7
       objectReference: {fileID: 0}
     - target: {fileID: 4570616831641505606, guid: cd47fd618fa2b9042a7c4c15e2455493,
         type: 3}
       propertyPath: startingCount
-      value: 42
+      value: 38
       objectReference: {fileID: 0}
     - target: {fileID: 4570616831641505606, guid: cd47fd618fa2b9042a7c4c15e2455493,
         type: 3}
