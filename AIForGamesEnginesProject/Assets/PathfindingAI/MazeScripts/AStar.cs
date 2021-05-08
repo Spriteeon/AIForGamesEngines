@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Diagnostics;
 
 public class AStar : MonoBehaviour
 {
@@ -27,15 +28,20 @@ public class AStar : MonoBehaviour
 
     void Update()
     {
-        if(canRunAlgorithm)
-        {
-            CalculateOptimalPath(enemy.position, goal.position);
-        }
+
+        CalculateOptimalPath(enemy.position, goal.position);
+        //if(canRunAlgorithm)
+        //{
+        //    CalculateOptimalPath(enemy.position, goal.position);
+        //}
     }
 
 
     void CalculateOptimalPath(Vector3 enemyPos, Vector3 goalPos)
     {
+
+        Stopwatch sw = new Stopwatch();
+        sw.Start();
         //The start and end of the path. Used to determin the path that needs calculating. 
         Node enemyStartNode = grid.NodePosInWorld(enemyPos);
         Node goalNode = grid.NodePosInWorld(goalPos);
@@ -69,7 +75,10 @@ public class AStar : MonoBehaviour
             
             if(currentNode == goalNode) 
             {
+                sw.Stop();
+                
                 RetracePath(enemyStartNode,goalNode);
+                print("Path calculated in: " + sw.ElapsedMilliseconds + "ms");
                  return;
             }
 

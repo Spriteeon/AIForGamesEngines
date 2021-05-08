@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Node
+public class Node : IHeapElement<Node>
 {
     //G and H cost of each node used to calculate the f cost.
     public int g;
@@ -17,7 +17,7 @@ public class Node
    // public Vector3 nodeRelativePos;
 
     public Node parentNode;
-    
+    int heapIndex;
 
 
     public Node(bool _notObstructed, Vector3 _nodeWorldPos/*_nodeRelativePos*/, int _posOnGridX, int _posOnGridY)
@@ -37,5 +37,27 @@ public class Node
             return g + h;
         }
         
+    }
+
+    public int HeapIndex
+    {
+        get
+        {
+            return heapIndex;
+        }
+        set
+        {
+            heapIndex = value;
+        }
+    }
+
+    public int CompareTo(Node nodeToCompare)
+    {
+        int compare = fcost.CompareTo(nodeToCompare.fcost);
+        if(compare == 0)
+        {
+            compare = h.CompareTo(nodeToCompare.h);
+        }
+        return -compare;
     }
 }
