@@ -11,11 +11,7 @@ public class BonusPointsCheck : MonoBehaviour
     private GameController controller;
 
     [SerializeField]
-    private GameObject enemy;
-
-    private Collider enemyCollider;
-
-
+    private AudioClip beatAISound;
 
     bool hasBeenTriggered;
 
@@ -24,8 +20,7 @@ public class BonusPointsCheck : MonoBehaviour
     {
         worldCollider = GetComponent<Collider>();
         hasBeenTriggered = false;
-        enemyCollider = enemy.GetComponent<Collider>();
-        //aStar = GetComponent<AStar>();
+        
     }
 
     // Update is called once per frame
@@ -42,6 +37,7 @@ public class BonusPointsCheck : MonoBehaviour
         {
             controller.AddScore(50);
             hasBeenTriggered = true;
+            AudioSource.PlayClipAtPoint(beatAISound, transform.position);
             Debug.Log("Player1 beat the bean!");
 
         }
@@ -50,8 +46,6 @@ public class BonusPointsCheck : MonoBehaviour
             hasBeenTriggered = true;
             Debug.Log("The Bean beat player1");
         }
-        //hasBeenTriggered = true;
-
-
+        
     }
 }
