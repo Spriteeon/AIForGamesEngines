@@ -5758,8 +5758,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aa87e9bcdcaf4745b83fdedb0d31034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  enemy: {fileID: 0}
+  controller: {fileID: 1873842956}
+  beatAISound: {fileID: 8300000, guid: f4fc258286d09a044b6aa94ef0e20436, type: 3}
 --- !u!4 &1105325699 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5657011858468079113, guid: 041cd322460ad0246ac03b068c647034,
@@ -6790,8 +6790,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aa87e9bcdcaf4745b83fdedb0d31034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  enemy: {fileID: 0}
+  controller: {fileID: 1873842956}
+  beatAISound: {fileID: 8300000, guid: f4fc258286d09a044b6aa94ef0e20436, type: 3}
 --- !u!1 &1342468971
 GameObject:
   m_ObjectHideFlags: 0
