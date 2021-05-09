@@ -527,6 +527,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 1911429213}
   beatAISound: {fileID: 8300000, guid: 9be577d0fb078274e8f7dc3a593fde02, type: 3}
+  astar: {fileID: 0}
 --- !u!1 &72838667
 GameObject:
   m_ObjectHideFlags: 0
@@ -11430,6 +11431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 1911429213}
   beatAISound: {fileID: 8300000, guid: f4fc258286d09a044b6aa94ef0e20436, type: 3}
+  astar: {fileID: 6172600268147461664}
 --- !u!1 &1448305439
 GameObject:
   m_ObjectHideFlags: 0

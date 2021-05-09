@@ -29,11 +29,11 @@ public class AStar : MonoBehaviour
     void Update()
     {
 
-        CalculateOptimalPath(enemy.position, goal.position);
-        //if(canRunAlgorithm)
-        //{
-        //    CalculateOptimalPath(enemy.position, goal.position);
-        //}
+        //CalculateOptimalPath(enemy.position, goal.position);
+        if (canRunAlgorithm)
+        {
+            CalculateOptimalPath(enemy.position, goal.position);
+        }
     }
 
 

@@ -13,6 +13,9 @@ public class BonusPointsCheck : MonoBehaviour
     [SerializeField]
     private AudioClip beatAISound;
 
+    [SerializeField]
+    private AStar astar;
+
     bool hasBeenTriggered;
 
     // Start is called before the first frame update
@@ -39,12 +42,24 @@ public class BonusPointsCheck : MonoBehaviour
             hasBeenTriggered = true;
             AudioSource.PlayClipAtPoint(beatAISound, transform.position);
             Debug.Log("Player1 beat the bean!");
+            
+            //kills the algorithm update if maze has been completed
+            if(astar != null)
+            {
+                astar.canRunAlgorithm = false;
+            }
 
         }
         if (!hasBeenTriggered && other.CompareTag("enemy"))
         {
             hasBeenTriggered = true;
             Debug.Log("The Bean beat player1");
+
+            //kills the algorithm update if maze has been completed
+            if (astar != null)
+            {
+                astar.canRunAlgorithm = false;
+            }
         }
         
     }
