@@ -59,9 +59,9 @@ public class AStar : MonoBehaviour
             for(int i = 1; i < openNodesList.Count; i++) 
             {
                 
-                if(openNodesList[i].fcost < currentNode.fcost || openNodesList[i].fcost == currentNode.fcost) 
+                if(openNodesList[i].fCost < currentNode.fCost || openNodesList[i].fCost == currentNode.fCost) 
                 {
-                    if (openNodesList[i].h < currentNode.h)
+                    if (openNodesList[i].hCost < currentNode.hCost)
                     {
                         currentNode = openNodesList[i];
                     }
@@ -91,11 +91,11 @@ public class AStar : MonoBehaviour
                    
                 }
 
-                int newMovementCost = currentNode.g + GetDistanceBetweenNodes(currentNode, adjacentNode);
-               if (newMovementCost < adjacentNode.g || !openNodesList.Contains(adjacentNode))
+                int newMovementCost = currentNode.gCost + GetDistanceBetweenNodes(currentNode, adjacentNode);
+               if (newMovementCost < adjacentNode.gCost || !openNodesList.Contains(adjacentNode))
                {
-                  adjacentNode.g = newMovementCost;
-                  adjacentNode.h = GetDistanceBetweenNodes(adjacentNode, goalNode);
+                  adjacentNode.gCost = newMovementCost;
+                  adjacentNode.hCost = GetDistanceBetweenNodes(adjacentNode, goalNode);
                   adjacentNode.parentNode = currentNode;
 
                  if (!openNodesList.Contains(adjacentNode))

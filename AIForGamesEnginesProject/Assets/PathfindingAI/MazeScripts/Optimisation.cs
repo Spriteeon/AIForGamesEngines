@@ -37,11 +37,11 @@ public class Optimisation <Node> where Node : IHeapElement<Node>
     }
 
     //As we only increase the priority of nodes, sort down does not need to be called here.
-    public void UpdateElement(Node element)
+    public void UpdatePriority(Node element)
     {
         SortUp(element);
     }
-    public int Count
+    public int GetCurrentNumElements
     {
         get { return currentNumElements; }
     }
