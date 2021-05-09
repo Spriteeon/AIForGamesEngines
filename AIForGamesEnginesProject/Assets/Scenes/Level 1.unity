@@ -486,7 +486,7 @@ PrefabInstance:
     - target: {fileID: 570717658107747556, guid: d1e66e1c4feddf84b85e9fecadd7a374,
         type: 3}
       propertyPath: m_Name
-      value: BonusPointsCheckCollider (1)
+      value: CrowdBonusPointsCheckCollider
       objectReference: {fileID: 0}
     - target: {fileID: 570717658107747559, guid: d1e66e1c4feddf84b85e9fecadd7a374,
         type: 3}
@@ -14064,7 +14064,7 @@ PrefabInstance:
     - target: {fileID: 570717658107747556, guid: d1e66e1c4feddf84b85e9fecadd7a374,
         type: 3}
       propertyPath: m_Name
-      value: BonusPointsCheckCollider
+      value: MazeBonusPointsCheckCollider
       objectReference: {fileID: 0}
     - target: {fileID: 570717658107747559, guid: d1e66e1c4feddf84b85e9fecadd7a374,
         type: 3}
