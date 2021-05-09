@@ -18,7 +18,13 @@ public class LevelGrid : MonoBehaviour
     
     int gridWidth, gridHeight;
 
-   
+   public int GetMaxSize
+    {
+        get
+        {
+            return gridWidth * gridHeight;
+        }
+    }
 
     //Sets initial values and determines grid x and y values based on how many nodes.
     void Awake()

@@ -19442,9 +19442,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 6172600267751534142}
   goal: {fileID: 6172600267926126926}
-  enemySpeed: 0.3
+  enemySpeed: 0.25
   currentVelocity: {x: 2, y: 0, z: 2}
-  positionAddition: {x: 0, y: 2, z: 0}
+  diffY: {x: 0, y: 1.5, z: 0}
   canRunAlgorithm: 0
 --- !u!114 &6172600268147461665
 MonoBehaviour:
