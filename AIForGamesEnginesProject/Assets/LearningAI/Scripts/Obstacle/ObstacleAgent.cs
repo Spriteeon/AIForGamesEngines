@@ -16,13 +16,15 @@ public class ObstacleAgent : Agent
 
 	public event Action onEnvironmentReset;
 	public GameObject finish;
-	public GameObject obstacleTile;
+	//public GameObject obstacleTile;
 
 	float distanceToFinish;
 	float oldDistanceToFinish;
 	float obstacleRotationAngle;
 
 	Vector3 straightVelocity;
+	Vector3 originalDirection = new Vector3(0.0f, 0.0f, 1.0f);
+	Vector3 obstacleDirection;
 
 	int timer;
 
@@ -32,7 +34,10 @@ public class ObstacleAgent : Agent
 		Rb = GetComponent<Rigidbody>();
 
 		//obstacleRotationAngle = obstacleTile.transform.rotation.y;
-		obstacleRotationAngle = obstacleTile.transform.localRotation.eulerAngles.y;
+		//obstacleRotationAngle = obstacleTile.transform.localRotation.eulerAngles.y;
+
+		obstacleDirection = finish.transform.position - gameObject.transform.position;
+		obstacleRotationAngle = Vector3.Angle(obstacleDirection, originalDirection);
 	}
 
 	public override void OnEpisodeBegin()
@@ -56,12 +61,12 @@ public class ObstacleAgent : Agent
 		timer++;
 
 		distanceToFinish = Vector3.Distance(gameObject.transform.position, finish.transform.position);
-		if(distanceToFinish < oldDistanceToFinish)
-        {
+		if (distanceToFinish < oldDistanceToFinish)
+		{
 			//AddReward(1f);
 		}
-        else
-        {
+		else
+		{
 			AddReward(-1f);
 		}
 		oldDistanceToFinish = distanceToFinish;
@@ -88,22 +93,22 @@ public class ObstacleAgent : Agent
 	}
 
 	void OnCollisionEnter(Collision collision)
-    {
+	{
 		if (collision.gameObject.CompareTag("enemy"))
-        {
+		{
 			AddReward(-1f);
 			//EndEpisode();
-        }
+		}
 		if (collision.gameObject.CompareTag("wall"))
 		{
 			AddReward(-1f);
 			//EndEpisode();
 		}
 		if (collision.gameObject.CompareTag("finish"))
-        {
+		{
 			AddReward(100000f / timer);
 			EndEpisode();
-        }
+		}
 	}
 
 	private void OnTriggerEnter(Collider other)

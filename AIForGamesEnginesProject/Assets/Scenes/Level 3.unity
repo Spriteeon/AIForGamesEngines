@@ -5763,87 +5763,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 041cd322460ad0246ac03b068c647034, type: 3}
---- !u!1001 &1280067672
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1752514941}
-    m_Modifications:
-    - target: {fileID: 7659772165062996420, guid: 70c82b9c73bd52f46b80867082bd0f61,
-        type: 3}
-      propertyPath: m_Name
-      value: Cube
-      objectReference: {fileID: 0}
-    - target: {fileID: 7659772165062996427, guid: 70c82b9c73bd52f46b80867082bd0f61,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7659772165062996427, guid: 70c82b9c73bd52f46b80867082bd0f61,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 151.83292
-      objectReference: {fileID: 0}
-    - target: {fileID: 7659772165062996427, guid: 70c82b9c73bd52f46b80867082bd0f61,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 8.21
-      objectReference: {fileID: 0}
-    - target: {fileID: 7659772165062996427, guid: 70c82b9c73bd52f46b80867082bd0f61,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.04
-      objectReference: {fileID: 0}
-    - target: {fileID: 7659772165062996427, guid: 70c82b9c73bd52f46b80867082bd0f61,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 7659772165062996427, guid: 70c82b9c73bd52f46b80867082bd0f61,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7659772165062996427, guid: 70c82b9c73bd52f46b80867082bd0f61,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 7659772165062996427, guid: 70c82b9c73bd52f46b80867082bd0f61,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7659772165062996427, guid: 70c82b9c73bd52f46b80867082bd0f61,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7659772165062996427, guid: 70c82b9c73bd52f46b80867082bd0f61,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 7659772165062996427, guid: 70c82b9c73bd52f46b80867082bd0f61,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 70c82b9c73bd52f46b80867082bd0f61, type: 3}
---- !u!4 &1280067673 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7659772165062996427, guid: 70c82b9c73bd52f46b80867082bd0f61,
-    type: 3}
-  m_PrefabInstance: {fileID: 1280067672}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1280067674 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7659772165062996420, guid: 70c82b9c73bd52f46b80867082bd0f61,
-    type: 3}
-  m_PrefabInstance: {fileID: 1280067672}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1294204355 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5657011858468079113, guid: 041cd322460ad0246ac03b068c647034,
@@ -6747,7 +6666,7 @@ PrefabInstance:
     - target: {fileID: 6891755324106360244, guid: 3eab2b56d60f3594a96977a9591e6724,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6891755324106360244, guid: 3eab2b56d60f3594a96977a9591e6724,
         type: 3}
@@ -8126,7 +8045,6 @@ Transform:
   - {fileID: 1888665550}
   - {fileID: 35957267}
   - {fileID: 137370645}
-  - {fileID: 1280067673}
   - {fileID: 1492036788}
   m_Father: {fileID: 1921963304}
   m_RootOrder: 3
@@ -8584,7 +8502,7 @@ PrefabInstance:
         type: 3}
       propertyPath: obstacleTile
       value: 
-      objectReference: {fileID: 1280067674}
+      objectReference: {fileID: 0}
     - target: {fileID: 5483072488806346006, guid: e43595ccd2fa629488e9dfb2d56ee465,
         type: 3}
       propertyPath: m_Name
