@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 [CreateAssetMenu(menuName = "Flock/Behaviour/Avoidance")]
 public class AvoidanceBehaviour : FilteredFlockBehaviour
 {
     public override Vector3 CalculateMove(FlockAgent agent, List<Transform> context, Flock flock)
     {
+
+        Profiler.BeginSample("Avoidance - CalculateMove()");
         if (context.Count == 0) // No neighbours, no adjustment
         {
             return Vector3.zero;
@@ -30,6 +33,7 @@ public class AvoidanceBehaviour : FilteredFlockBehaviour
             avoidanceMove /= nAvoid;
         }
 
+        Profiler.EndSample();
         return avoidanceMove;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 [CreateAssetMenu(menuName = "Flock/Behaviour/Steered Cohesion")]
 public class SteeredCohesionBehaviour : FilteredFlockBehaviour
@@ -10,6 +11,7 @@ public class SteeredCohesionBehaviour : FilteredFlockBehaviour
 
     public override Vector3 CalculateMove(FlockAgent agent, List<Transform> context, Flock flock)
     {
+        Profiler.BeginSample("Cohesion - CalculateMove()");
         if (context.Count == 0) // No neighbours, no adjustment
         {
             return Vector3.zero;
@@ -27,6 +29,8 @@ public class SteeredCohesionBehaviour : FilteredFlockBehaviour
         // Create offset
         cohesionMove -= agent.transform.position;
         cohesionMove = Vector3.SmoothDamp(agent.transform.forward, cohesionMove, ref currentVelocity, agentSmoothTime);
+
+        Profiler.EndSample();
         return cohesionMove;
     }
 }

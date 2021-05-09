@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 [CreateAssetMenu(menuName = "Flock/Behaviour/Alignment")]
 public class AlignmentBehaviour : FilteredFlockBehaviour
 {
     public override Vector3 CalculateMove(FlockAgent agent, List<Transform> context, Flock flock)
     {
+        Profiler.BeginSample("Alignment - CalculateMove()");
         if (context.Count == 0) // No neighbours, maintain current alignment
         {
             return agent.transform.up;
@@ -21,6 +23,7 @@ public class AlignmentBehaviour : FilteredFlockBehaviour
         }
         alignmentMove /= context.Count;
 
+        Profiler.EndSample();
         return alignmentMove;
     }
 }
