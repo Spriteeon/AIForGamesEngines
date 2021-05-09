@@ -6,21 +6,21 @@ using System.Diagnostics;
 public class AStar : MonoBehaviour
 {
     //start and end positions of the path
-    public Transform enemy, goal;
+    public Transform enemy, mazeEnd;
     private Vector3 enemyStart;
     
     //smooth time, velocity and height diff to add  for enemy movement.
     public float enemySpeed;
-    public Vector3 currentVelocity;
+    public Vector3 vel;
     public Vector3 diffY;
 
     public bool canRunAlgorithm;
     
-    LevelGrid grid;
+    LevelGrid levelGrid;
 
     void Start()
     {
-        grid = GetComponent<LevelGrid> ();
+        levelGrid = GetComponent<LevelGrid> ();
         canRunAlgorithm = false;
     }
 
@@ -29,82 +29,72 @@ public class AStar : MonoBehaviour
 
         if (canRunAlgorithm)
         {
-            CalculateOptimalPath(enemy.position, goal.position);
+            CalculateOptimumPath(enemy.position, mazeEnd.position);
         }
     }
-
-
-    void CalculateOptimalPath(Vector3 enemyPos, Vector3 goalPos)
+    void CalculateOptimumPath(Vector3 enemyPos, Vector3 mazeEndPos)
     {
         //Stopwatch for analysing algorithm efficiency.
         Stopwatch sw = new Stopwatch();
         sw.Start();
         
-        //The start and end of the path. Used to determin the path that needs calculating. 
-        Node enemyStartNode = grid.NodePosInWorld(enemyPos);
-        Node goalNode = grid.NodePosInWorld(goalPos);
+        Node enemyStartNode = levelGrid.NodePosInWorld(enemyPos);
+        Node mazeEndNode = levelGrid.NodePosInWorld(mazeEndPos);
 
-        //Lists of open and closed nodes used in pathfinding calculations. 
-        //Open = is yet to be checked but is in range. Closed = has been checked and processed. 
-        List<Node> openNodesList = new List<Node>();
-        List<Node> closedNodesList = new List<Node>();
+        List<Node> openNodes = new List<Node>();
+        List<Node> closedNodes = new List<Node>();
 
-        openNodesList.Add(enemyStartNode);
+        openNodes.Add(enemyStartNode);
 
-        //While there are still open nodes to explore:
-        while(openNodesList.Count > 0) 
+        while(openNodes.Count > 0) 
         {
-            Node currentNode = openNodesList[0];
-            for(int i = 1; i < openNodesList.Count; i++) 
+            Node currentNode = openNodes[0];
+            for(int i = 1; i < openNodes.Count; i++) 
             {
                 
-                if(openNodesList[i].fCost < currentNode.fCost || openNodesList[i].fCost == currentNode.fCost) 
+                if(openNodes[i].fCost < currentNode.fCost || openNodes[i].fCost == currentNode.fCost) 
                 {
-                    /*if multiple adjacent nodes in the open list have the same f cost, 
-                    look to the h cost to decide which is the optimum node.*/
-                    if (openNodesList[i].hCost < currentNode.hCost)
+                    if (openNodes[i].hCost < currentNode.hCost)
                     {
-                        currentNode = openNodesList[i];
-                    }
-                        
-                    
+                        currentNode = openNodes[i];
+                    }  
                 }
             }
-               
-            openNodesList.Remove(currentNode);
-            closedNodesList.Add(currentNode);
+            openNodes.Remove(currentNode);
+            closedNodes.Add(currentNode);
             
+            foreach(Node adjacentNode in levelGrid.GetAdjacentNodes(currentNode)) 
+            {
+                if (!adjacentNode.notObstructed || closedNodes.Contains(adjacentNode))
+                {
+                    continue;
+                }
+
+                int newMovementCost = currentNode.gCost + GetDistanceBetweenNodes(currentNode, adjacentNode);
+               
+                if (newMovementCost < adjacentNode.gCost || !openNodes.Contains(adjacentNode))
+                {
+                  adjacentNode.gCost = newMovementCost;
+                  adjacentNode.hCost = GetDistanceBetweenNodes(adjacentNode, mazeEndNode);
+                  adjacentNode.parentNode = currentNode;
+
+                  if (!openNodes.Contains(adjacentNode))
+                  {
+                     openNodes.Add(adjacentNode);
+                  } 
+                 
+                }
+            }
             //if pathfinding is complete
-            if(currentNode == goalNode) 
+            if(currentNode == mazeEndNode) 
             {
                 sw.Stop();
                 
-                RetracePath(enemyStartNode,goalNode);
+                RetracePath(enemyStartNode,mazeEndNode);
                 print("Path calculated in: " + sw.ElapsedMilliseconds + "ms");
                  return;
             }
 
-            foreach(Node adjacentNode in grid.GetAdjacentNodes(currentNode)) 
-            {
-                if (!adjacentNode.notObstructed || closedNodesList.Contains(adjacentNode))
-                {
-                    continue;
-                   
-                }
-
-               int newMovementCost = currentNode.gCost + GetDistanceBetweenNodes(currentNode, adjacentNode);
-               if (newMovementCost < adjacentNode.gCost || !openNodesList.Contains(adjacentNode))
-               {
-                  adjacentNode.gCost = newMovementCost;
-                  adjacentNode.hCost = GetDistanceBetweenNodes(adjacentNode, goalNode);
-                  adjacentNode.parentNode = currentNode;
-
-                 if (!openNodesList.Contains(adjacentNode))
-                 {
-                        openNodesList.Add(adjacentNode);
-                 }    
-               }
-            }
         }  
     }
 
@@ -115,32 +105,32 @@ public class AStar : MonoBehaviour
 
         if(distanceX > distanceY)
         {
-            return 14*distanceY + 10* (distanceX-distanceY);
+            return 14 * distanceY + 10 * (distanceX-distanceY);
         }
            
-        return 14*distanceX + 10 * (distanceY-distanceX);
+        return 14 * distanceX + 10 * (distanceY-distanceX);
         
     }
 
-    void RetracePath(Node startNode, Node endNode)
+    void RetracePath(Node pathStart, Node pathEnd)
     {
         List<Node> finalPath = new List<Node>();
-        Node currentNode = endNode;
+        Node currentNode = pathEnd;
         
-        while(currentNode != startNode)
+        while(currentNode != pathStart)
         {
             finalPath.Add(currentNode);
             currentNode = currentNode.parentNode;
         }
         
         finalPath.Reverse();
-        grid.finalPath = finalPath;
+        levelGrid.finalPath = finalPath;
         enemyStart = enemy.position;
         
         //Moves ai along the found path.
-        foreach(Node n in finalPath)
+        foreach(Node fpNode in finalPath)
         {
-               enemy.transform.position = Vector3.SmoothDamp(enemyStart, finalPath[0].nodeWorldPosition + diffY, ref currentVelocity, enemySpeed);
+               enemy.transform.position = Vector3.SmoothDamp(enemyStart, finalPath[0].nodeWorldPosition + diffY, ref vel, enemySpeed);
         }
     }   
 }

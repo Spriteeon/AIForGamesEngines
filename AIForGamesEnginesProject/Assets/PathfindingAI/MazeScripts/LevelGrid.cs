@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LevelGrid : MonoBehaviour
 {
-    public Transform player;
+    //public Transform player;
    
     
     public LayerMask obstructedMask;
@@ -44,13 +44,13 @@ public class LevelGrid : MonoBehaviour
     {
         grid = new Node[gridWidth,gridHeight];
 
-        Vector3 lowerLeftCorner = this.transform.position - Vector3.right * gridWorldSize.x/2 - Vector3.forward * gridWorldSize.y / 2;
+        Vector3 gridLowerLeft = this.transform.position - Vector3.right * gridWorldSize.x/2 - Vector3.forward * gridWorldSize.y / 2;
 
         for(int x = 0; x < gridWidth; x++)
         {
             for(int y = 0; y < gridHeight; y++)
             {
-                Vector3 worldPos = lowerLeftCorner + Vector3.right * (x * nodeDiam + nodeRad) + Vector3.forward * (y * nodeDiam + nodeRad);
+                Vector3 worldPos = gridLowerLeft + Vector3.right * (x * nodeDiam + nodeRad) + Vector3.forward * (y * nodeDiam + nodeRad);
                 //Vector3 worldPos = transform.position;
                 bool walkable = !(Physics.CheckSphere(worldPos,nodeRad,obstructedMask));
                 grid[x,y] = new Node(walkable,worldPos, x,y);
