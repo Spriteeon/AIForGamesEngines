@@ -106,6 +106,15 @@ public class ObstacleAgent : Agent
         }
 	}
 
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.CompareTag("finish"))
+		{
+			//EndEpisode();
+			Destroy(gameObject);
+		}
+	}
+
 	private void Reset()
 	{
 		Debug.Log(message: "Reset");
@@ -114,4 +123,9 @@ public class ObstacleAgent : Agent
 	#region Debug
 
 	#endregion
+
+	public void SetSpeed(float newSpeed)
+	{
+		speed = newSpeed;
+	}
 }
