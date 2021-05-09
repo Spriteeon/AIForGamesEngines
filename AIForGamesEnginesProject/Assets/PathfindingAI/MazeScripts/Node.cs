@@ -39,7 +39,7 @@ public class Node : IHeapElement<Node>
         
     }
 
-    public int HeapIndex
+    public int indexInHeap
     {
         get
         {

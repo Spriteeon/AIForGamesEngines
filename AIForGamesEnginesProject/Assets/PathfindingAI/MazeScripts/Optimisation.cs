@@ -3,41 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class Optimization <T> where T : IHeapElement<T>
+public class Optimisation <Node> where Node : IHeapElement<Node>
 {
-    T[] elements;
+    Node[] elements;
     int currentNumElements;
 
-    public Optimization(int heapSizeMax)
+    public Optimisation(int heapSizeMax)
     {
-        elements = new T[heapSizeMax];
+        elements = new Node[heapSizeMax];
     }
 
-    public void AddToHeap(T element)
+    public void AddToHeap(Node element)
     {
-        element.HeapIndex = currentNumElements;
+        element.indexInHeap = currentNumElements;
         elements[currentNumElements] = element;
         SortUp(element);
         currentNumElements++;
     }
 
-    public T RemoveFromHeap()
+    public Node RemoveFromHeap()
     {
-        T firstElement = elements[0];
+        Node firstElement = elements[0];
         currentNumElements--;
         elements[0] = elements[currentNumElements];
-        elements[0].HeapIndex = 0;
+        elements[0].indexInHeap = 0;
         SortDown(elements[0]);
         return firstElement;
     }
 
-    public bool Contains(T element)
+    public bool Contains(Node element)
     {
-        return Equals(elements[element.HeapIndex], element);
+        return Equals(elements[element.indexInHeap], element);
     }
 
     //As we only increase the priority of nodes, sort down does not need to be called here.
-    public void UpdateElement(T element)
+    public void UpdateElement(Node element)
     {
         SortUp(element);
     }
@@ -45,13 +45,13 @@ public class Optimization <T> where T : IHeapElement<T>
     {
         get { return currentNumElements; }
     }
-    void SortUp(T element)
+    void SortUp(Node element)
     {
-        int parentIndex = (element.HeapIndex - 1) / 2;
+        int parentIndex = (element.indexInHeap - 1) / 2;
 
         while(true)
         {
-            T parentElement = elements[parentIndex];
+            Node parentElement = elements[parentIndex];
             if(element.CompareTo(parentElement) > 0)
             {
                 RearrangeElements(element, parentElement);
@@ -60,16 +60,16 @@ public class Optimization <T> where T : IHeapElement<T>
             {
                 break;
             }
-            parentIndex = (element.HeapIndex - 1) / 2;
+            parentIndex = (element.indexInHeap - 1) / 2;
         }
     }
 
-    void SortDown(T element)
+    void SortDown(Node element)
     {
         while(true)
         {
-            int childIndexLeft = element.HeapIndex * 2 + 1;
-            int childIndexRight = element.HeapIndex * 2 + 2;
+            int childIndexLeft = element.indexInHeap * 2 + 1;
+            int childIndexRight = element.indexInHeap * 2 + 2;
             int swapIndex = 0;
 
             if(childIndexLeft < currentNumElements)
@@ -99,21 +99,21 @@ public class Optimization <T> where T : IHeapElement<T>
         }
     }
     
-    void RearrangeElements(T elementA, T elementB)
+    void RearrangeElements(Node elementA, Node elementB)
     {
-        elements[elementA.HeapIndex] = elementB;
-        elements[elementB.HeapIndex] = elementA;
+        elements[elementA.indexInHeap] = elementB;
+        elements[elementB.indexInHeap] = elementA;
 
-        int elementAIndex = elementA.HeapIndex;
+        int elementAIndex = elementA.indexInHeap;
         
-        elementA.HeapIndex = elementB.HeapIndex;
-        elementB.HeapIndex = elementAIndex;
+        elementA.indexInHeap = elementB.indexInHeap;
+        elementB.indexInHeap = elementAIndex;
     }
 }
 
 public interface IHeapElement<T> : IComparable<T>
 {
-    int HeapIndex
+    int indexInHeap
     {
         get;
         set;
