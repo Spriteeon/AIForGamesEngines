@@ -4124,6 +4124,85 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 844471638}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &849089767
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1872768819}
+    m_Modifications:
+    - target: {fileID: 2114938676, guid: d02b595596c36e04c810254a6cd89ff5, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 371443091}
+    - target: {fileID: 2949486127076970402, guid: d02b595596c36e04c810254a6cd89ff5,
+        type: 3}
+      propertyPath: m_Name
+      value: Checkpoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 2949486127076970404, guid: d02b595596c36e04c810254a6cd89ff5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2949486127076970404, guid: d02b595596c36e04c810254a6cd89ff5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 227.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 2949486127076970404, guid: d02b595596c36e04c810254a6cd89ff5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 9.83
+      objectReference: {fileID: 0}
+    - target: {fileID: 2949486127076970404, guid: d02b595596c36e04c810254a6cd89ff5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.02255249
+      objectReference: {fileID: 0}
+    - target: {fileID: 2949486127076970404, guid: d02b595596c36e04c810254a6cd89ff5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2949486127076970404, guid: d02b595596c36e04c810254a6cd89ff5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2949486127076970404, guid: d02b595596c36e04c810254a6cd89ff5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2949486127076970404, guid: d02b595596c36e04c810254a6cd89ff5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2949486127076970404, guid: d02b595596c36e04c810254a6cd89ff5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2949486127076970404, guid: d02b595596c36e04c810254a6cd89ff5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2949486127076970404, guid: d02b595596c36e04c810254a6cd89ff5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d02b595596c36e04c810254a6cd89ff5, type: 3}
+--- !u!4 &849089768 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2949486127076970404, guid: d02b595596c36e04c810254a6cd89ff5,
+    type: 3}
+  m_PrefabInstance: {fileID: 849089767}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &853112003
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9021,6 +9100,7 @@ Transform:
   - {fileID: 205681551}
   - {fileID: 346177606}
   - {fileID: 1083108304}
+  - {fileID: 849089768}
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12567,7 +12647,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7675127652118b447a423de76b8d3c2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 6172600267418391353}
   obstructedMask:
     serializedVersion: 2
     m_Bits: 512
@@ -12586,9 +12665,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 6172600267418391353}
-  goal: {fileID: 6172600268258819145}
+  mazeEnd: {fileID: 0}
   enemySpeed: 0.3
-  currentVelocity: {x: 2, y: 0, z: 2}
+  vel: {x: 0, y: 0, z: 0}
   diffY: {x: 0, y: 0, z: 0}
   canRunAlgorithm: 0
 --- !u!33 &6172600268203393672
