@@ -17,7 +17,7 @@ public class Optimisation <Node> where Node : IHeapElement<Node>
     {
         element.indexInHeap = currentNumElements;
         elements[currentNumElements] = element;
-        SortUp(element);
+        UpSort(element);
         currentNumElements++;
     }
 
@@ -27,7 +27,7 @@ public class Optimisation <Node> where Node : IHeapElement<Node>
         currentNumElements--;
         elements[0] = elements[currentNumElements];
         elements[0].indexInHeap = 0;
-        SortDown(elements[0]);
+        DownSort(elements[0]);
         return firstElement;
     }
 
@@ -39,13 +39,13 @@ public class Optimisation <Node> where Node : IHeapElement<Node>
     //As we only increase the priority of nodes, sort down does not need to be called here.
     public void UpdatePriority(Node element)
     {
-        SortUp(element);
+        UpSort(element);
     }
     public int GetCurrentNumElements
     {
         get { return currentNumElements; }
     }
-    void SortUp(Node element)
+    void UpSort(Node element)
     {
         int parentIndex = (element.indexInHeap - 1) / 2;
 
@@ -64,28 +64,28 @@ public class Optimisation <Node> where Node : IHeapElement<Node>
         }
     }
 
-    void SortDown(Node element)
+    void DownSort(Node element)
     {
         while(true)
         {
-            int childIndexLeft = element.indexInHeap * 2 + 1;
-            int childIndexRight = element.indexInHeap * 2 + 2;
-            int swapIndex = 0;
+            int leftChildIndex = element.indexInHeap * 2 + 1;
+            int rightChildIndex = element.indexInHeap * 2 + 2;
+            int indexToSwap = 0;
 
-            if(childIndexLeft < currentNumElements)
+            if(leftChildIndex < currentNumElements)
             {
-                swapIndex = childIndexLeft;
+                indexToSwap = leftChildIndex;
 
-                if(childIndexRight < currentNumElements)
+                if(rightChildIndex < currentNumElements)
                 {
-                    if(elements[childIndexLeft].CompareTo(elements[childIndexRight]) < 0)
+                    if(elements[leftChildIndex].CompareTo(elements[rightChildIndex]) < 0)
                     {
-                        swapIndex = childIndexRight;
+                        indexToSwap = rightChildIndex;
                     }
                 }
-                if(element.CompareTo(elements[swapIndex]) < 0)
+                if(element.CompareTo(elements[indexToSwap]) < 0)
                 {
-                    RearrangeElements(element, elements[swapIndex]);
+                    RearrangeElements(element, elements[indexToSwap]);
                 }
                 else
                 {
@@ -99,19 +99,19 @@ public class Optimisation <Node> where Node : IHeapElement<Node>
         }
     }
     
-    void RearrangeElements(Node elementA, Node elementB)
+    void RearrangeElements(Node A, Node B)
     {
-        elements[elementA.indexInHeap] = elementB;
-        elements[elementB.indexInHeap] = elementA;
+        elements[A.indexInHeap] = B;
+        elements[B.indexInHeap] = A;
 
-        int elementAIndex = elementA.indexInHeap;
+        int tempAindex = A.indexInHeap;
         
-        elementA.indexInHeap = elementB.indexInHeap;
-        elementB.indexInHeap = elementAIndex;
+        A.indexInHeap = B.indexInHeap;
+        B.indexInHeap = tempAindex;
     }
 }
 
-public interface IHeapElement<T> : IComparable<T>
+public interface IHeapElement<Node> : IComparable<Node>
 {
     int indexInHeap
     {

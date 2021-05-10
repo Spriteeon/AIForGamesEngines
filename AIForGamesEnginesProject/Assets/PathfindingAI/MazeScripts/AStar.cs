@@ -29,38 +29,23 @@ public class AStar : MonoBehaviour
 
         if (canRunAlgorithm)
         {
-            CalculateOptimumPath(enemy.position, mazeEnd.position);
+            CalculateOptimalPath(enemy.position, mazeEnd.position);
         }
     }
-    void CalculateOptimumPath(Vector3 enemyPos, Vector3 mazeEndPos)
+    void CalculateOptimalPath(Vector3 enemyPos, Vector3 mazeEndPos)
     {
-        //Stopwatch for analysing algorithm efficiency.
-        Stopwatch sw = new Stopwatch();
-        sw.Start();
-        
         Node enemyStartNode = levelGrid.NodePosInWorld(enemyPos);
         Node mazeEndNode = levelGrid.NodePosInWorld(mazeEndPos);
 
-        List<Node> openNodes = new List<Node>();
+        Optimisation<Node> openNodes = new Optimisation<Node>(levelGrid.GetMaxSize);
         List<Node> closedNodes = new List<Node>();
 
-        openNodes.Add(enemyStartNode);
+        openNodes.AddToHeap(enemyStartNode);
 
-        while(openNodes.Count > 0) 
+        while(openNodes.GetCurrentNumElements > 0) 
         {
-            Node currentNode = openNodes[0];
-            for(int i = 1; i < openNodes.Count; i++) 
-            {
-                
-                if(openNodes[i].fCost < currentNode.fCost || openNodes[i].fCost == currentNode.fCost) 
-                {
-                    if (openNodes[i].hCost < currentNode.hCost)
-                    {
-                        currentNode = openNodes[i];
-                    }  
-                }
-            }
-            openNodes.Remove(currentNode);
+            Node currentNode = openNodes.RemoveFromHeap();
+            
             closedNodes.Add(currentNode);
             
             foreach(Node adjacentNode in levelGrid.GetAdjacentNodes(currentNode)) 
@@ -70,17 +55,17 @@ public class AStar : MonoBehaviour
                     continue;
                 }
 
-                int newMovementCost = currentNode.gCost + GetDistanceBetweenNodes(currentNode, adjacentNode);
+                int updatedMoveCost = currentNode.gCost + GetDistanceBetweenNodes(currentNode, adjacentNode);
                
-                if (newMovementCost < adjacentNode.gCost || !openNodes.Contains(adjacentNode))
+                if (updatedMoveCost < adjacentNode.gCost || !openNodes.Contains(adjacentNode))
                 {
-                  adjacentNode.gCost = newMovementCost;
+                  adjacentNode.gCost = updatedMoveCost;
                   adjacentNode.hCost = GetDistanceBetweenNodes(adjacentNode, mazeEndNode);
                   adjacentNode.parentNode = currentNode;
 
                   if (!openNodes.Contains(adjacentNode))
                   {
-                     openNodes.Add(adjacentNode);
+                     openNodes.AddToHeap(adjacentNode);
                   } 
                  
                 }
@@ -88,13 +73,9 @@ public class AStar : MonoBehaviour
             //if pathfinding is complete
             if(currentNode == mazeEndNode) 
             {
-                sw.Stop();
-                
                 RetracePath(enemyStartNode,mazeEndNode);
-                print("Path calculated in: " + sw.ElapsedMilliseconds + "ms");
                  return;
             }
-
         }  
     }
 
