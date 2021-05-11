@@ -96,16 +96,23 @@ public class Flock : MonoBehaviour
     {
         foreach(FlockAgent agent in agents)
         {
-            List<Transform> context = GetNearbyObjects(agent); // What exists in the neighbour radius
-            Vector3 move = behaviour.CalculateMove(agent, context, this);
-            move *= driveFactor;
-
-            if (move.sqrMagnitude > squareMaxSpeed)
+            if (!agent)
             {
-                move = move.normalized * maxSpeed;
-                move = new Vector3(move.x, 0, move.z);
+                agents.Remove(agent); // Escaped cheeto gets destroyed and removed from list
             }
-            agent.Move(move);
+            else
+            {
+                List<Transform> context = GetNearbyObjects(agent); // What exists in the neighbour radius
+                Vector3 move = behaviour.CalculateMove(agent, context, this);
+                move *= driveFactor;
+
+                if (move.sqrMagnitude > squareMaxSpeed)
+                {
+                    move = move.normalized * maxSpeed;
+                    move = new Vector3(move.x, 0, move.z);
+                }
+                agent.Move(move);
+            }
         }
     }
 

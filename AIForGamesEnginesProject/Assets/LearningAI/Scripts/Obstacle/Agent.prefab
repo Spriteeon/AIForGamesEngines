@@ -159,7 +159,6 @@ MonoBehaviour:
   speed: 8
   rotationSpeed: 3
   finish: {fileID: 0}
-  obstacleTile: {fileID: 0}
 --- !u!114 &3712475450343816723
 MonoBehaviour:
   m_ObjectHideFlags: 0
